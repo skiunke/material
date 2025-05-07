@@ -8,6 +8,4 @@ services:
     container_name: crypto_toolbox_web_container
     ports:
       - "7823:80"
-    volumes:
-      - ./src:/usr/share/nginx/html:ro
     restart: unless-stopped
