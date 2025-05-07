@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: crypto_toolbox_web_container
     ports:
-      - "8888:80"
+      - "7823:80"
     volumes:
       - ./src:/usr/share/nginx/html:ro
     restart: unless-stopped
