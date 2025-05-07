@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wem kannst du online trauen?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .profile-card-container {
+            perspective: 1000px; /* Needed for the 3D flip effect */
+        }
+        .profile-card {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%; /* Creates a square aspect ratio */
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out;
+            cursor: pointer; /* Indicate interactivity */
+        }
+        .profile-card-container:hover .profile-card {
+            transform: rotateY(180deg);
+        }
+        .profile-card-face {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hide the back side when facing away */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        .profile-card-front {
+            background-color: #f8fafc; /* slate-50 */
+            border: 1px solid #e2e8f0; /* slate-200 */
+            color: #1e293b; /* slate-800 */
+        }
+        .profile-card-back {
+            background-color: #fee2e2; /* red-100 */
+            border: 1px solid #fca5a5; /* red-300 */
+            color: #991b1b; /* red-800 */
+            transform: rotateY(180deg); /* Start flipped */
+        }
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.75rem; /* mb-3 */
+            border: 3px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .platform-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+        }
+        .request-text {
+            font-style: italic;
+            color: #475569; /* slate-600 */
+            margin-top: 0.5rem; /* mt-2 */
+            font-size: 0.9rem; /* text-sm */
+        }
+        .warning-text {
+            font-weight: 600; /* font-semibold */
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
+
+<div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-5xl">
+    <header class="mb-10 text-center">
+        <div class="inline-block p-3 bg-orange-500 rounded-full mb-4 shadow-lg">
+            <i class="fas fa-mask fa-2x text-white"></i>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-orange-600 mb-3">Nicht alles ist, wie es scheint!</h1>
+        <p class="text-md text-slate-600 max-w-2xl mx-auto">
+            Online sehen Profile oft nett und vertrauenswürdig aus. Aber wer steckt wirklich dahinter? Sei vorsichtig, wem du glaubst und was du teilst!
+            (Fahre mit der Maus über die Karten, um mehr zu erfahren.)
+        </p>
+        <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur Startseite</a>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <div class="profile-card-face profile-card-front">
+                    <i class="fab fa-google platform-icon text-red-500" title="Simulierter Google Dienst"></i>
+                    <img src="https://placehold.co/100x100/DB4437/ffffff?text=G" alt="Google Logo" class="profile-pic">
+                    <h3 class="font-semibold text-lg">Google Sicherheitsteam</h3>
+                    <p class="text-xs text-slate-500 mb-2">support@google-mail.help</p>
+                    <p class="request-text">"Sicherheitswarnung! Bitte bestätige dein Passwort sofort hier, um dein Konto zu schützen."</p>
+                </div>
+                <div class="profile-card-face profile-card-back">
+                    <i class="fas fa-skull-crossbones fa-3x mb-3 text-red-600"></i>
+                    <h3 class="font-bold text-lg">ACHTUNG, PHISHING!</h3>
+                    <p class="warning-text text-sm">Niemals Passwörter auf Anfrage eingeben! Echte Dienste fragen so nicht danach. Das ist wahrscheinlich ein Betrüger, der dein Konto stehlen will.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <div class="profile-card-face profile-card-front">
+                    <i class="fab fa-instagram platform-icon text-pink-500" title="Simuliertes Instagram Profil"></i>
+                    <img src="https://placehold.co/100x100/E1306C/ffffff?text=CutiePie" alt="Nettes Profilbild" class="profile-pic">
+                    <h3 class="font-semibold text-lg">CutiePie_15</h3>
+                    <p class="text-xs text-slate-500 mb-2">Gerade kennengelernt im Chat</p>
+                    <p class="request-text">"Hey, du bist echt süß! 😉 Schickst du mir noch ein Bild nur für mich?"</p>
+                </div>
+                <div class="profile-card-face profile-card-back">
+                    <i class="fas fa-user-secret fa-3x mb-3 text-red-600"></i>
+                    <h3 class="font-bold text-lg">SEI VORSICHTIG!</h3>
+                    <p class="warning-text text-sm">Du weißt nie, wer wirklich hinter dem Profil steckt! Schicke niemals private oder freizügige Bilder. Sie könnten missbraucht oder weitergeleitet werden!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <div class="profile-card-face profile-card-front">
+                    <i class="fab fa-discord platform-icon text-indigo-500" title="Simuliertes Discord Profil"></i>
+                    <img src="https://placehold.co/100x100/7289DA/ffffff?text=GamerX" alt="Cooles Gaming Bild" class="profile-pic">
+                    <h3 class="font-semibold text-lg">xX_GamerX_Xx</h3>
+                    <p class="text-xs text-slate-500 mb-2">Unbekannte Freundschaftsanfrage</p>
+                    <p class="request-text">"Hey, cooler Spieler! Hab dich auf dem Server gesehen. Klick mal hier für kostenlose Game-Skins: [verdächtiger-link].xyz"</p>
+                </div>
+                <div class="profile-card-face profile-card-back">
+                    <i class="fas fa-virus fa-3x mb-3 text-red-600"></i>
+                    <h3 class="font-bold text-lg">GEFAHR: MALWARE/SCAM!</h3>
+                    <p class="warning-text text-sm">Klicke niemals auf unbekannte Links, besonders wenn sie zu gut klingen, um wahr zu sein! Dahinter könnten Viren oder Betrugsversuche stecken.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <div class="profile-card-face profile-card-front">
+                    <i class="fas fa-envelope platform-icon text-yellow-500" title="Simulierte E-Mail"></i>
+                    <img src="https://placehold.co/100x100/fbbf24/ffffff?text=WIN" alt="Gewinn Logo" class="profile-pic">
+                    <h3 class="font-semibold text-lg">Glücks-Lotterie</h3>
+                    <p class="text-xs text-slate-500 mb-2">info@super-gewinne-sofort.net</p>
+                    <p class="request-text">"Herzlichen Glückwunsch! Du hast 1000€ gewonnen! Gib deine Adresse und Bankdaten an, um den Preis zu erhalten."</p>
+                </div>
+                <div class="profile-card-face profile-card-back">
+                    <i class="fas fa-money-bill-wave fa-3x mb-3 text-red-600"></i>
+                    <h3 class="font-bold text-lg">BETRUGSVERSUCH!</h3>
+                    <p class="warning-text text-sm">Sei misstrauisch bei unerwarteten Gewinnen! Gib niemals persönliche Daten oder Bankinfos preis, wenn du nicht 100% sicher bist.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <div class="profile-card-face profile-card-front">
+                    <i class="fab fa-whatsapp platform-icon text-green-500" title="Simulierter WhatsApp Chat"></i>
+                    <img src="https://placehold.co/100x100/25D366/ffffff?text=BFF" alt="Profilbild Freund" class="profile-pic">
+                    <h3 class="font-semibold text-lg">BesterFreund123</h3>
+                    <p class="text-xs text-slate-500 mb-2">Sieht aus wie dein Freund...</p>
+                    <p class="request-text">"Hey, mein Handy ist kaputt, bin bei Mama. Kannst du mir kurz deine Telefonnummer und den Code schicken, den du gleich per SMS bekommst?"</p>
+                </div>
+                <div class="profile-card-face profile-card-back">
+                    <i class="fas fa-user-ninja fa-3x mb-3 text-red-600"></i>
+                    <h3 class="font-bold text-lg">KONTOÜBERNAHME?</h3>
+                    <p class="warning-text text-sm">Vorsicht! Das Konto deines Freundes könnte gehackt sein. Gib niemals Bestätigungscodes weiter! Frage lieber über einen anderen Weg nach (Anruf!).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <div class="profile-card-face profile-card-front">
+                    <i class="fas fa-poll-h platform-icon text-blue-500" title="Simulierte Umfrage"></i>
+                    <img src="https://placehold.co/100x100/3b82f6/ffffff?text=Q" alt="Umfrage Logo" class="profile-pic">
+                    <h3 class="font-semibold text-lg">MeinungsChecker</h3>
+                    <p class="text-xs text-slate-500 mb-2">Nimm an unserer Umfrage teil!</p>
+                    <p class="request-text">"Deine Meinung zählt! Beantworte ein paar Fragen zu deinen Hobbys, Lieblingsmarken und deinem Taschengeld."</p>
+                </div>
+                <div class="profile-card-face profile-card-back">
+                    <i class="fas fa-database fa-3x mb-3 text-red-600"></i>
+                    <h3 class="font-bold text-lg">DATENSAMMLUNG!</h3>
+                    <p class="warning-text text-sm">Auch harmlose Umfragen sammeln Daten über dich. Überlege, welche Infos du preisgeben möchtest. Diese Daten können für Werbung genutzt werden.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <section id="tipsSection" class="mt-10 pt-6 border-t border-slate-300">
+        <h2 class="text-2xl font-semibold text-emerald-700 mb-4 text-center flex items-center justify-center">
+            <i class="fas fa-shield-heart mr-3 text-emerald-500"></i>So bleibst du sicher!
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+                <i class="fas fa-question-circle fa-2x text-emerald-600 mb-2 icon-pulse"></i>
+                <h3 class="font-semibold mb-1">Sei misstrauisch!</h3>
+                <p class="text-sm text-slate-600">Wenn etwas komisch wirkt oder zu gut klingt, ist es das oft auch. Frage nach, bevor du klickst oder antwortest.</p>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+                <i class="fas fa-comment-slash fa-2x text-emerald-600 mb-2 icon-pulse"></i>
+                <h3 class="font-semibold mb-1">Gib nichts Privates raus!</h3>
+                <p class="text-sm text-slate-600">Passwörter, Codes, private Bilder, Adresse, Bankdaten gehen niemanden etwas an!</p>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+                <i class="fas fa-user-group fa-2x text-emerald-600 mb-2 icon-pulse"></i>
+                <h3 class="font-semibold mb-1">Hol dir Hilfe!</h3>
+                <p class="text-sm text-slate-600">Wenn du dir unsicher bist oder jemand dich komisch anschreibt: Sag deinen Eltern oder einer anderen Vertrauensperson Bescheid!</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // Kein JavaScript für die Kernfunktionalität (Hover-Effekt) notwendig.
+    // Nur für optionale Erweiterungen.
+</script>
+</body>
+</html>

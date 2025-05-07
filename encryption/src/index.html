@@ -3,100 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kryptographie Werkzeugkasten</title>
+    <title>Interaktiver Werkzeugkasten</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .tool-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
         .tool-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        .tool-card h3 svg {
+        /* Optional: Animate FontAwesome icons on hover */
+        .tool-card:hover h3 i {
+            transform: rotate(5deg) scale(1.1);
             transition: transform 0.3s ease;
         }
-        .tool-card:hover h3 svg {
-            transform: rotate(5deg) scale(1.1);
+        .tool-card-content {
+            flex-grow: 1;
+        }
+        .section-title {
+            border-bottom: 2px solid #0ea5e9; /* sky-500 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i { /* Style icon in section title */
+            margin-right: 0.75rem;
+            width: 2rem; /* Tailwind w-8 */
+            height: 2rem; /* Tailwind h-8 */
+            line-height: 2rem; /* Center icon vertically if needed */
+            text-align: center;
+        }
+        .tool-card h3 i { /* Style icon in card title */
+            margin-right: 0.75rem;
+            width: 1.75rem; /* Tailwind w-7 */
+            height: 1.75rem; /* Tailwind h-7 */
+            line-height: 1.75rem;
+            text-align: center;
+        }
+        .hidden-by-search {
+            opacity: 0;
+            transform: scale(0.95);
+            height: 0;
+            padding: 0 !important; /* Use !important to override Tailwind padding */
+            margin: 0 !important; /* Use !important to override Tailwind margin */
+            overflow: hidden;
+            pointer-events: none;
+            /* Adjust transition for smoother height change */
+            transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, margin 0.3s ease;
+            /* Add display none after transition for complete removal from layout */
+            transition-end: display: none;
+        }
+        /* Add a class to explicitly show elements */
+        .visible-by-search {
+            display: flex; /* Or block, inline-block etc. depending on element */
+            opacity: 1;
+            transform: scale(1);
+            /* Explicitly set height, padding, margin back if needed, or rely on defaults */
+            height: auto; /* Or original height */
+            overflow: visible;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
 
-<div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-5xl">
-    <header class="mb-10 text-center">
+<div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-6xl">
+    <header class="mb-8 text-center">
         <div class="inline-block p-3 bg-sky-600 rounded-full mb-4 shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-white">
-                <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3A5.25 5.25 0 0 0 12 1.5Zm-3.75 5.25v3a1.5 1.5 0 0 0 0 3v6.75a1.5 1.5 0 0 0 1.5 1.5h7.5a1.5 1.5 0 0 0 1.5-1.5v-6.75a1.5 1.5 0 0 0 0-3v-3a3.75 3.75 0 0 0-7.5 0Z" clip-rule="evenodd" />
-            </svg>
+            <i class="fas fa-toolbox fa-2x text-white"></i>
         </div>
-        <h1 class="text-4xl sm:text-5xl font-bold text-sky-700 mb-3">Kryptographie Werkzeugkasten</h1>
+        <h1 class="text-4xl sm:text-5xl font-bold text-sky-700 mb-3">Interaktiver Werkzeugkasten</h1>
         <p class="text-md text-slate-600 max-w-2xl mx-auto">
-            Willkommen! Entdecken Sie verschiedene kryptographische Algorithmen und Konzepte durch interaktive Visualisierungen und Werkzeuge.
+            Willkommen! Entdecke verschiedene Konzepte und Algorithmen durch interaktive Visualisierungen und praktische Werkzeuge.
         </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-        <a href="caesar_cipher_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200">
-            <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
-                    <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.035-.84-1.875-1.875-1.875h-.75Z" />
-                    <path d="M9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 0 1 9.75 20.25V8.625Z" />
-                    <path d="M3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.035 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 0 1 3 19.875v-6.75Z" />
-                </svg>
-                Caesar-Verschlüsselung
-            </h3>
-            <p class="text-sm text-slate-600 mb-4">
-                Ein einfaches Verschlüsselungswerkzeug, das die klassische Caesar-Chiffre demonstriert. Geben Sie Text ein und sehen Sie verschiedene Verschiebungen.
-            </p>
-            <span class="inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors">Werkzeug öffnen &rarr;</span>
-        </a>
+    <div class="mb-8 px-2">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-slate-400"></i>
+            </div>
+            <input type="search" id="toolSearchInput" placeholder="Werkzeuge durchsuchen (z.B. Caesar, SHA, Social Media)..." class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-300 rounded-lg bg-slate-50 focus:ring-sky-500 focus:border-sky-500">
+        </div>
+    </div>
 
-        <a href="vigenere_cipher_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200">
-            <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
-                    <path d="M18.75 21.75H5.25a3 3 0 0 1-3-3V8.25a3 3 0 0 1 3-3h3.75V4.5a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3V5.25h3.75a3 3 0 0 1 3 3v10.5a3 3 0 0 1-3 3Zm-6.75-18a1.5 1.5 0 0 0-1.5 1.5V5.25h3V4.5a1.5 1.5 0 0 0-1.5-1.5Z" />
-                    <path d="M5.25 6.75A1.5 1.5 0 0 0 3.75 8.25v10.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V8.25a1.5 1.5 0 0 0-1.5-1.5H5.25Z" />
-                </svg>
-                Vigenère-Chiffre & Analyse
-            </h3>
-            <p class="text-sm text-slate-600 mb-4">
-                Erforschen Sie die Vigenère-Chiffre mit einem Schlüsselwort. Enthält auch einen Ansatz zur Kasiski-Test-Analyse für unbekannte Schlüssel.
-            </p>
-            <span class="inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors">Werkzeug öffnen &rarr;</span>
-        </a>
+    <div id="toolSectionsContainer">
+        <section class="tool-section mb-10" data-section-name="Klassische Kryptographie">
+            <h2 class="section-title text-3xl font-semibold text-slate-700">
+                <i class="fas fa-key text-sky-500"></i>
+                Klassische Kryptographie
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <a href="caesar_cipher_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Caesar-Verschlüsselung" data-description="klassisches Chiffre Verschiebungen Text">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-align-left text-sky-500"></i>
+                            Caesar-Verschlüsselung
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Ein einfaches Werkzeug, das die klassische Caesar-Chiffre demonstriert. Gib Text ein und sieh verschiedene Verschiebungen.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Werkzeug öffnen &rarr;</span>
+                </a>
+                <a href="vigenere_cipher_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Vigenère-Chiffre & Analyse" data-description="Kryptographie Schlüsselwort Kasiski-Test">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-file-lines text-sky-500"></i>
+                            Vigenère-Chiffre & Analyse
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Erforsche die Vigenère-Chiffre mit einem Schlüsselwort. Enthält auch einen Ansatz zur Kasiski-Test-Analyse.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Werkzeug öffnen &rarr;</span>
+                </a>
+            </div>
+        </section>
 
-        <a href="sha_visualization_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200">
-            <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
-                    <path fill-rule="evenodd" d="M15.75 2.25a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.163l-3.32 3.32a.75.75 0 0 1-1.06 0l-1.5-1.5a.75.75 0 0 1 0-1.06l3.32-3.32H10.5a.75.75 0 0 1 0-1.5h4.5a.75.75 0 0 1 .75.75Zm-6 6.5a.75.75 0 0 0-1.06 0l-3.32 3.32V10.5a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 0-1.5H5.163l3.32-3.32a.75.75 0 0 0 0-1.06l-1.5-1.5Zm3.939 8.25a.75.75 0 0 1 0 1.06l-3.32 3.32V21a.75.75 0 0 1-1.5 0v-4.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5H10.84l3.32 3.32a.75.75 0 0 1-1.061 0l1.5 1.5ZM18.25 9.75A.75.75 0 0 0 19.5 9h4.5a.75.75 0 0 0 0-1.5H19.5A.75.75 0 0 0 18.25 9Z" clip-rule="evenodd" />
-                    <path d="m4.03 8.296 1.5-1.5L2.25 3.513a.75.75 0 0 0-1.061 0l-1.5 1.5a.75.75 0 0 0 0 1.06L3.03 9.374a.75.75 0 0 0 1.06 0l-1.5-1.5a.75.75 0 0 0 0-1.06l.75-.75.75.75a.75.75 0 0 0 1.06 0l-.75-.75-.75.75ZM20.97 14.626l-1.5 1.5 3.281 3.28a.75.75 0 0 0 1.06 0l1.5-1.5a.75.75 0 0 0 0-1.06l-3.28-3.28a.75.75 0 0 0-1.061 0l1.5 1.5a.75.75 0 0 0 0 1.06l-.75.75-.75-.75a.75.75 0 0 0-1.06 0l.75.75.75-.75Z" />
-                </svg>
-                SHA-256 Visualisierung
-            </h3>
-            <p class="text-sm text-slate-600 mb-4">
-                Eine konzeptionelle Darstellung der Funktionsweise des SHA-256 Hash-Algorithmus, Schritt für Schritt von der Eingabe bis zum Hash.
-            </p>
-            <span class="inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors">Visualisierung öffnen &rarr;</span>
-        </a>
+        <section class="tool-section mb-10" data-section-name="Moderne Kryptographie & Hashing">
+            <h2 class="section-title text-3xl font-semibold text-slate-700">
+                <i class="fas fa-lock text-sky-500"></i>
+                Moderne Kryptographie & Hashing
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <a href="sha_visualization_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="SHA-256 Hash Visualisierung" data-description="Hashing Algorithmus Datensicherheit Fingerabdruck">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-hashtag text-sky-500"></i>
+                            SHA-256 Hash Visualisierung
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Eine konzeptionelle Darstellung der Funktionsweise des SHA-256 Hash-Algorithmus, Schritt für Schritt.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Visualisierung öffnen &rarr;</span>
+                </a>
+                <a href="aes_rsa_visualization_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="AES & RSA Visualisierung" data-description="symmetrisch asymmetrisch Verschlüsselung Algorithmen">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-shield-halved text-sky-500"></i>
+                            AES & RSA Visualisierung
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Grundlagen der symmetrischen (AES) und asymmetrischen (RSA) Verschlüsselung konzeptionell verstehen.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Visualisierung öffnen &rarr;</span>
+                </a>
+            </div>
+        </section>
 
-        <a href="aes_rsa_visualization_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200">
-            <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
-                    <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Zm10.667 3.425a.75.75 0 0 0-.475-1.045 6.003 6.003 0 0 0-1.222-.471.75.75 0 0 0-.872.206l-.42.63-.903.264a.75.75 0 0 0-.42.997l.128.48a.75.75 0 0 0 .997.42l.48-.128.264-.903.63-.42a.75.75 0 0 0 .206-.872 4.503 4.503 0 0 1 .916.353.75.75 0 0 0 1.045-.475Z" clip-rule="evenodd" />
-                    <path d="M5.76 14.425a.75.75 0 0 1 .476-1.045 6.003 6.003 0 0 1 1.22-.471.75.75 0 0 1 .873.206l.42.63.904.264a.75.75 0 0 1 .42.997l-.127.48a.75.75 0 0 1-.998.42l-.48-.128-.263-.903-.63-.42a.75.75 0 0 1-.206-.872 4.503 4.503 0 0 0-.917.353.75.75 0 0 1-1.045-.475Z" />
-                </svg>
-                AES & RSA Visualisierung
-            </h3>
-            <p class="text-sm text-slate-600 mb-4">
-                Verstehen Sie die Grundlagen der symmetrischen (AES) und asymmetrischen (RSA) Verschlüsselung durch konzeptionelle Visualisierungen.
-            </p>
-            <span class="inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors">Visualisierung öffnen &rarr;</span>
-        </a>
+        <section class="tool-section mb-10" data-section-name="Datenschutz & Social Media">
+            <h2 class="section-title text-3xl font-semibold text-slate-700">
+                <i class="fas fa-user-secret text-sky-500"></i>
+                Datenschutz & Social Media
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <a href="social_media_privacy_awareness_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Social Media Tracking Demo" data-description="Datenschutz Logbuch Profilübersicht Tracking">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-users text-sky-500"></i>
+                            Social Media Tracking Demo
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Erlebe, wie soziale Medien Aktionen verfolgen und welche Daten gesammelt werden könnten. Mit Logbuch und Profilübersicht.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Demo öffnen &rarr;</span>
+                </a>
+                <a href="social_media_privacy_awareness_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Social Media Tracking Demo" data-description="Datenschutz Logbuch Profilübersicht Tracking">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-users text-sky-500"></i>
+                            Social Media Tracking Demo
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Erlebe, wie soziale Medien Aktionen verfolgen und welche Daten gesammelt werden könnten. Mit Logbuch und Profilübersicht.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Demo öffnen &rarr;</span>
+                </a>
+            </div>
+        </section>
+
     </div>
 </div>
 
@@ -106,6 +194,87 @@
 
 <script>
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    const searchInput = document.getElementById('toolSearchInput');
+    const toolSectionsContainer = document.getElementById('toolSectionsContainer');
+    const toolSections = toolSectionsContainer.querySelectorAll('.tool-section');
+
+    searchInput.addEventListener('input', function(event) {
+        const searchTerm = event.target.value.toLowerCase().trim();
+
+        toolSections.forEach(section => {
+            const sectionTitleText = section.dataset.sectionName.toLowerCase();
+            const cards = section.querySelectorAll('.tool-card');
+            let sectionHasVisibleCards = false;
+
+            cards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                const description = card.dataset.description.toLowerCase();
+                // Check if card matches search term
+                const cardMatches = title.includes(searchTerm) || description.includes(searchTerm);
+
+                if (cardMatches) {
+                    card.style.display = ''; // Reset display property
+                    card.classList.remove('hidden-by-search');
+                    card.classList.add('visible-by-search'); // Add class to ensure visibility styles
+                    sectionHasVisibleCards = true;
+                } else {
+                    // Check if section title matches, if so, show all cards in that section
+                    if (sectionTitleText.includes(searchTerm) && searchTerm !== "") {
+                        card.style.display = '';
+                        card.classList.remove('hidden-by-search');
+                        card.classList.add('visible-by-search');
+                        sectionHasVisibleCards = true; // Ensure section title remains visible
+                    } else {
+                        card.classList.add('hidden-by-search');
+                        card.classList.remove('visible-by-search');
+                        // Add event listener for transition end to set display: none
+                        card.addEventListener('transitionend', function handleTransitionEnd() {
+                            // Check again in case the state changed during transition
+                            if (card.classList.contains('hidden-by-search')) {
+                                card.style.display = 'none';
+                            }
+                            card.removeEventListener('transitionend', handleTransitionEnd);
+                        }, { once: true }); // Use once to automatically remove listener after firing
+                    }
+                }
+            });
+
+            // Show/Hide Section Title and Section itself
+            const sectionTitleElement = section.querySelector('.section-title');
+            const sectionGrid = section.querySelector('.grid'); // Target the grid for hiding/showing
+
+            if (sectionHasVisibleCards || sectionTitleText.includes(searchTerm) || searchTerm === "") {
+                sectionTitleElement.style.display = '';
+                sectionTitleElement.classList.remove('hidden-by-search');
+                sectionGrid.style.display = 'grid'; // Ensure grid display is reset
+                sectionGrid.classList.remove('hidden-by-search');
+                section.style.display = ''; // Show section container
+                section.classList.remove('hidden-by-search');
+                section.classList.add('visible-by-search');
+                // Ensure cards are visible if section title matches or search is empty
+                if(sectionTitleText.includes(searchTerm) || searchTerm === "") {
+                    cards.forEach(card => {
+                        card.style.display = '';
+                        card.classList.remove('hidden-by-search');
+                        card.classList.add('visible-by-search');
+                    });
+                }
+            } else {
+                sectionTitleElement.classList.add('hidden-by-search');
+                sectionGrid.classList.add('hidden-by-search'); // Hide grid as well
+                section.classList.add('hidden-by-search');
+                sectionTitleElement.addEventListener('transitionend', function handleTransitionEnd() {
+                    if (sectionTitleElement.classList.contains('hidden-by-search')) {
+                        sectionTitleElement.style.display = 'none';
+                        sectionGrid.style.display = 'none'; // Hide grid completely after transition
+                        section.style.display = 'none'; // Hide section container
+                    }
+                    sectionTitleElement.removeEventListener('transitionend', handleTransitionEnd);
+                }, { once: true });
+            }
+        });
+    });
 </script>
 </body>
 </html>

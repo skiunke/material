@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dein Daten-Profil (Demo) - Erweitert</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .profile-section {
+            background-color: #f8fafc; /* slate-50 */
+            border: 1px solid #e2e8f0; /* slate-200 */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .profile-section h2 svg {
+            transition: transform 0.3s ease;
+        }
+        .profile-section:hover h2 svg {
+            transform: rotate(3deg) scale(1.05);
+        }
+        .interest-tag {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px; /* pill shape */
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+        .assumption-card {
+            background-color: #fff;
+            border: 1px solid #cbd5e1; /* slate-300 */
+            border-left-width: 4px;
+        }
+        .data-point {
+            margin-bottom: 0.3rem;
+        }
+        .data-point strong {
+            color: #334155; /* slate-700 */
+        }
+        .data-point span {
+            color: #475569; /* slate-600 */
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 p-4 sm:p-6 md:p-8">
+<div class="container mx-auto max-w-4xl">
+    <header class="mb-10 text-center">
+        <div class="inline-block p-3 bg-sky-600 rounded-full mb-4 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-white">
+                <path fill-rule="evenodd" d="M17.5 9.75a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Zm-9 5.595A3.75 3.75 0 0 1 6 13.5V10.5a.75.75 0 0 1 1.5 0v3a2.25 2.25 0 0 0 4.5 0v-3a.75.75 0 0 1 1.5 0v3a3.75 3.75 0 0 1-2.555 3.545c.078.15.15.303.217.459a.75.75 0 0 1-1.341.668A4.495 4.495 0 0 0 8.5 15.345ZM15 9.75a3 3 0 0 0-5.196 2.006A3.002 3.002 0 0 0 9 12.5a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-2.5a3 3 0 0 0-3-3A3 3 0 0 0 15 9.75Z" clip-rule="evenodd" />
+            </svg>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-sky-700 mb-3">Dein Daten-Profil (Demo)</h1>
+        <p class="text-md text-slate-600 max-w-2xl mx-auto">
+            Basierend auf simulierten Interaktionen könnte eine App Folgendes über dich "wissen" oder annehmen.
+            Dies ist eine Demonstration und verwendet Beispieldaten.
+        </p>
+        <a href="social_media_privacy_awareness_tool.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur Social Media Demo</a>
+    </header>
+
+    <section class="profile-section" id="demographicsSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+            </svg>
+            Demografische Daten (Simuliert)
+        </h2>
+        <ul class="text-sm text-slate-700 space-y-1">
+            <li class="data-point"><strong>Name:</strong> <span id="profileName" class="font-mono"></span></li>
+            <li class="data-point"><strong>Altersgruppe:</strong> <span id="profileAgeRange" class="font-mono"></span></li>
+            <li class="data-point"><strong>Geschlecht:</strong> <span id="profileGender" class="font-mono"></span></li>
+            <li class="data-point"><strong>Bildungsniveau:</strong> <span id="profileEducation" class="font-mono"></span></li>
+            <li class="data-point"><strong>Familienstand:</strong> <span id="profileFamilyStatus" class="font-mono"></span></li>
+        </ul>
+    </section>
+
+    <section class="profile-section" id="interestsSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path d="M11.645 20.91a.75.75 0 0 1-1.29 0l-5.042-6.856a.75.75 0 0 1 .042-1.063l4.042-4.042a.75.75 0 0 1 1.29.042l1.172 6.101 4.078-1.02a.75.75 0 0 1 .852.852l-1.02 4.078 6.101 1.172a.75.75 0 0 1 .042 1.29l-4.042 4.042a.75.75 0 0 1-1.063.042l-6.856-5.042Z" />
+            </svg>
+            Abgeleitete Interessen
+        </h2>
+        <div id="interestTags" class="flex flex-wrap"></div>
+        <p class="text-xs text-slate-500 mt-3 italic">Basierend auf gelikten Posts, angesehenen Inhalten und Suchanfragen.</p>
+    </section>
+
+    <section class="profile-section" id="activityPatternSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+            </svg>
+            Aktivitätsmuster (Beispiel)
+        </h2>
+        <ul class="text-sm text-slate-700 space-y-1">
+            <li class="data-point"><strong>Hauptaktivitätszeit:</strong> <span id="activeTime" class="font-semibold"></span></li>
+            <li class="data-point"><strong>Spitzen-Aktivitätstag:</strong> <span id="peakDay" class="font-semibold"></span></li>
+            <li class="data-point"><strong>Geschätzte Schlafenszeit:</strong> <span id="estimatedSleep" class="font-semibold"></span> (basierend auf Inaktivität).</li>
+            <li class="data-point"><strong>Engagement-Level:</strong> <span id="engagementLevel" class="font-semibold"></span> (Likes, Kommentare).</li>
+            <li class="data-point"><strong>Inhaltskonsum:</strong> <span id="contentConsumptionSpeed" class="font-semibold"></span> (Scrollverhalten).</li>
+        </ul>
+    </section>
+
+    <section class="profile-section" id="deviceLocationSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
+                <path fill-rule="evenodd" d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v18h-1.125C8.004 21 7.5 20.496 7.5 19.875V4.125ZM11.25 3v18h1.5V3h-1.5Zm3 0v18h1.125c.621 0 1.125-.504 1.125-1.125V4.125C16.5 3.504 15.996 3 15.375 3H14.25Z" clip-rule="evenodd" />
+            </svg>
+            Geräte & Standort (Simuliert)
+        </h2>
+        <ul class="text-sm text-slate-700 space-y-1">
+            <li class="data-point"><strong>Betriebssystem:</strong> <span id="profileDeviceOs" class="font-mono"></span></li>
+            <li class="data-point"><strong>Browser:</strong> <span id="profileDeviceBrowser" class="font-mono"></span></li>
+            <li class="data-point"><strong>IP-Adresse:</strong> <span id="profileDeviceIp" class="font-mono"></span></li>
+            <li class="data-point"><strong>Land (via IP):</strong> <span id="profileDeviceCountry" class="font-mono"></span></li>
+            <li class="data-point"><strong>Stadt (via IP):</strong> <span id="profileDeviceCity" class="font-mono"></span></li>
+            <li class="data-point"><strong>Zeitzone:</strong> <span id="profileDeviceTimezone" class="font-mono"></span></li>
+            <li class="data-point"><strong>Verbindungstyp:</strong> <span id="profileDeviceConnection" class="font-mono"></span></li>
+        </ul>
+    </section>
+
+    <section class="profile-section" id="psychographicsSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.035-.84-1.875-1.875-1.875h-.75Z" />
+                <path d="M9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 0 1 9.75 20.25V8.625Z" />
+                <path d="M3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.035 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 0 1 3 19.875v-6.75Z" />
+            </svg>
+            Psychografische Merkmale (Abgeleitet)
+        </h2>
+        <ul class="text-sm text-slate-700 space-y-1">
+            <li class="data-point"><strong>Aktuelle Stimmung:</strong> <span id="profileMood" class="font-semibold"></span> (basierend auf Interaktionen).</li>
+            <li class="data-point"><strong>Persönlichkeitsmerkmale:</strong> <span id="profilePersonality" class="font-semibold"></span>.</li>
+            <li class="data-point"><strong>Werte:</strong> <span id="profileValues" class="font-semibold"></span> (basierend auf Inhalten).</li>
+        </ul>
+    </section>
+
+    <section class="profile-section" id="purchaseIntentSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path d="M2.25 2.25a.75.75 0 0 0 0 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 0 0-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 0 0 0-1.5H5.378A2.25 2.25 0 0 1 7.5 15h11.218a.75.75 0 0 0 .674-.421 60.358 60.358 0 0 0 2.96-7.228.75.75 0 0 0-.525-.965A60.864 60.864 0 0 0 5.68 4.509l-.232-.867A1.875 1.875 0 0 0 3.636 2.25H2.25Z" />
+            </svg>
+            Kaufabsichten (Abgeleitet)
+        </h2>
+        <ul class="text-sm text-slate-700 space-y-1">
+            <li class="data-point"><strong>Interessierende Kategorien:</strong> <span id="purchaseCategories" class="font-semibold"></span>.</li>
+            <li class="data-point"><strong>Zuletzt gesuchtes Produkt:</strong> <span id="lastSearchedProduct" class="font-mono"></span>.</li>
+            <li class="data-point"><strong>Preissensibilität:</strong> <span id="priceSensitivity" class="font-semibold"></span>.</li>
+        </ul>
+    </section>
+
+    <section class="profile-section" id="digitalHabitsSection">
+        <h2 class="text-2xl font-semibold text-sky-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-sky-500">
+                <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Z" clip-rule="evenodd" />
+            </svg>
+            Digitale Gewohnheiten (Abgeleitet)
+        </h2>
+        <ul class="text-sm text-slate-700 space-y-1">
+            <li class="data-point"><strong>Häufig besuchte Seitentypen:</strong> <span id="frequentSiteTypes" class="font-semibold"></span>.</li>
+            <li class="data-point"><strong>Wahrscheinliche Softwarenutzung:</strong> <span id="likelySoftware" class="font-semibold"></span>.</li>
+            <li class="data-point"><strong>Andere genutzte Social Media (Vermutung):</strong> <span id="otherSocialMedia" class="font-semibold"></span>.</li>
+        </ul>
+    </section>
+
+    <section class="profile-section !bg-amber-50 border-amber-500 text-amber-900" id="appAssumptionsSection">
+        <h2 class="text-2xl font-semibold text-amber-700 mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-3 text-amber-600">
+                <path fill-rule="evenodd" d="M14.448 2.612A.75.75 0 0 1 15 3.25v11.19l4.72-4.72a.75.75 0 1 1 1.06 1.06l-6 6a.75.75 0 0 1-1.06 0l-6-6a.75.75 0 1 1 1.06-1.06l4.72 4.72V3.25a.75.75 0 0 1 .552-.738Z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M12.75 21.75a.75.75 0 0 1-1.5 0V18a.75.75 0 0 1 1.5 0v3.75Z" clip-rule="evenodd" />
+            </svg>
+            Was diese App über dich "denken" könnte (Beispiele)
+        </h2>
+        <div id="assumptionsList" class="space-y-3"></div>
+        <p class="text-xs text-amber-700 mt-4 italic">
+            Diese Annahmen sind stark vereinfacht und dienen nur zur Demonstration. Echte Algorithmen sind komplexer und können detailliertere Profile erstellen,
+            die für personalisierte Inhalte, Werbung oder andere Zwecke verwendet werden.
+        </p>
+    </section>
+
+</div>
+
+<script>
+    const simulatedProfileData = {
+        demographics: {
+            name: "Alex Muster (Simuliert)",
+            ageRange: "25-34 (Geschätzt)",
+            gender: "Nicht spezifiziert / Divers (Abgeleitet)",
+            educationLevel: "Hochschulabschluss (Vermutet)",
+            familyStatus: "Single (Vermutet)"
+        },
+        interests: ["Reisen", "Technik", "Kochen", "Fotografie", "Nachrichten", "Nachhaltigkeit", "Gaming", "DIY Projekte"],
+        activity: {
+            activeTime: "Abends (19:00 - 22:00 Uhr)",
+            peakDay: "Samstag",
+            estimatedSleep: "ca. 23:30 - 07:00 Uhr",
+            engagementLevel: "Mittel bis Hoch",
+            contentConsumptionSpeed: "Schnell (Scrollt oft durch viele Inhalte)"
+        },
+        device: {
+            os: "Windows 10 (Simuliert)",
+            browser: "Chrome (Simuliert)",
+            ip: "87.123.45.67 (Simuliert)",
+            country: "Deutschland (Simuliert)",
+            city: "Musterstadt (Abgeleitet von IP)",
+            timezone: "Europe/Berlin (Simuliert)",
+            connectionType: "WLAN (Vermutet)"
+        },
+        psychographics: {
+            mood: "Neugierig & Engagiert (Basierend auf aktuellen Interaktionen)",
+            personalityTraits: ["Offen für Neues", "Technikaffin", "Kreativ", "Detailorientiert (Abgeleitet)"],
+            values: ["Nachhaltigkeit", "Effizienz", "Selbstverbesserung (Abgeleitet)"]
+        },
+        purchaseIntent: {
+            categories: ["Neue Smartphones", "Reiseangebote Alpen", "Kochzubehör"],
+            lastSearchedProduct: "XYZ Smartphone Generation 5",
+            priceSensitivity: "Mittel (Reagiert auf Angebote und Rabatte)"
+        },
+        digitalHabits: {
+            frequentSiteTypes: ["Nachrichtenseiten", "Technik-Blogs", "Reiseportale", "DIY-Foren"],
+            likelySoftwareUsage: ["Bildbearbeitung (wg. Fotografie)", "Projektmanagement-Tools (Vermutet)", "Gaming-Plattformen"],
+            socialMediaPlatforms: ["SocialNet Demo", "Foto-Sharing Plattformen (Vermutet)", "Professionelle Netzwerke (Vermutet)"]
+        },
+        assumptions: [
+            {
+                icon: "✈️",
+                text: "Du planst wahrscheinlich bald eine Reise oder interessierst dich stark für Urlaubsthemen, speziell in Bergregionen.",
+                reason: "Viele Interaktionen mit Reise-Posts, Suche nach 'Alpen', Interesse an Fotografie."
+            },
+            {
+                icon: "📱",
+                text: "Du bist an neuer Technologie interessiert und könntest offen für den Kauf eines neuen Smartphones der oberen Mittelklasse sein.",
+                reason: "Likes für Technik-News, Suchanfragen nach 'Smartphone', Preissensibilität 'Mittel'."
+            },
+            {
+                icon: "🌙",
+                text: "Du bist eher ein 'Nachtmensch' und nutzt soziale Medien bevorzugt zur Entspannung oder Recherche am Abend.",
+                reason: "Hauptaktivität abends, geschätzte späte Schlafenszeit, Konsum von Hobby-Inhalten."
+            },
+            {
+                icon: "🎯",
+                text: "Werbung für Kochkurse, nachhaltige Produkte oder DIY-Materialien könnte für dich relevant sein.",
+                reason: "Hohes Engagement mit Food-Content, Interesse an Nachhaltigkeit und DIY."
+            },
+            {
+                icon: "🧠",
+                text: "Du könntest derzeit Informationen für eine Kaufentscheidung im Technikbereich sammeln oder dich für Produktivitäts-Software interessieren.",
+                reason: "Kombination aus Technik-Interesse, spezifischer Produktsuche und vermuteter Nutzung von Projektmanagement-Tools."
+            },
+            {
+                icon: "🎮",
+                text: "Du hast möglicherweise ein Interesse an Videospielen, eventuell auf PC oder Konsole.",
+                reason: "Interesse an 'Gaming', Nutzung eines Desktop-Betriebssystems."
+            }
+        ]
+    };
+
+    function setText(elementId, value) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const span = element.querySelector('span');
+            if (span) span.textContent = value || "N/A";
+            else element.textContent = value || "N/A";
+        }
+    }
+
+    function populateDemographics() {
+        setText('profileName', simulatedProfileData.demographics.name);
+        setText('profileAgeRange', simulatedProfileData.demographics.ageRange);
+        setText('profileGender', simulatedProfileData.demographics.gender);
+        setText('profileEducation', simulatedProfileData.demographics.educationLevel);
+        setText('profileFamilyStatus', simulatedProfileData.demographics.familyStatus);
+    }
+
+    function populateInterests() {
+        const container = document.getElementById('interestTags');
+        container.innerHTML = '';
+        simulatedProfileData.interests.forEach(interest => {
+            const tag = document.createElement('span');
+            tag.className = 'interest-tag';
+            tag.textContent = interest;
+            container.appendChild(tag);
+        });
+    }
+
+    function populateActivity() {
+        setText('activeTime', simulatedProfileData.activity.activeTime);
+        setText('peakDay', simulatedProfileData.activity.peakDay);
+        setText('estimatedSleep', simulatedProfileData.activity.estimatedSleep);
+        setText('engagementLevel', simulatedProfileData.activity.engagementLevel);
+        setText('contentConsumptionSpeed', simulatedProfileData.activity.contentConsumptionSpeed);
+    }
+
+    function populateDevice() {
+        setText('profileDeviceOs', simulatedProfileData.device.os);
+        setText('profileDeviceBrowser', simulatedProfileData.device.browser);
+        setText('profileDeviceIp', simulatedProfileData.device.ip);
+        setText('profileDeviceCountry', simulatedProfileData.device.country);
+        setText('profileDeviceCity', simulatedProfileData.device.city);
+        setText('profileDeviceTimezone', simulatedProfileData.device.timezone);
+        setText('profileDeviceConnection', simulatedProfileData.device.connectionType);
+    }
+
+    function populatePsychographics() {
+        setText('profileMood', simulatedProfileData.psychographics.mood);
+        setText('profilePersonality', simulatedProfileData.psychographics.personalityTraits.join(', '));
+        setText('profileValues', simulatedProfileData.psychographics.values.join(', '));
+    }
+
+    function populatePurchaseIntent() {
+        setText('purchaseCategories', simulatedProfileData.purchaseIntent.categories.join(', '));
+        setText('lastSearchedProduct', simulatedProfileData.purchaseIntent.lastSearchedProduct);
+        setText('priceSensitivity', simulatedProfileData.purchaseIntent.priceSensitivity);
+    }
+
+    function populateDigitalHabits() {
+        setText('frequentSiteTypes', simulatedProfileData.digitalHabits.frequentSiteTypes.join(', '));
+        setText('likelySoftware', simulatedProfileData.digitalHabits.likelySoftwareUsage.join(', '));
+        setText('otherSocialMedia', simulatedProfileData.digitalHabits.socialMediaPlatforms.join(', '));
+    }
+
+
+    function populateAssumptions() {
+        const container = document.getElementById('assumptionsList');
+        container.innerHTML = '';
+        simulatedProfileData.assumptions.forEach(assumption => {
+            const card = document.createElement('div');
+            card.className = 'assumption-card p-3 rounded-md border-amber-400';
+            card.innerHTML = `
+                    <div class="flex items-start">
+                        <span class="text-2xl mr-3">${assumption.icon}</span>
+                        <div>
+                            <p class="text-sm font-medium">${assumption.text}</p>
+                            <p class="text-xs text-amber-700 mt-1"><em>Grund (simuliert): ${assumption.reason}</em></p>
+                        </div>
+                    </div>
+                `;
+            container.appendChild(card);
+        });
+    }
+
+    window.onload = () => {
+        populateDemographics();
+        populateInterests();
+        populateActivity();
+        populateDevice();
+        populatePsychographics();
+        populatePurchaseIntent();
+        populateDigitalHabits();
+        populateAssumptions();
+    };
+</script>
+</body>
+</html>
