@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigenère-Chiffre Werkzeug</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .tab-button {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .tab-button.active {
+            border-color: #0ea5e9; /* sky-500 */
+            background-color: #0ea5e9;
+            color: white;
+        }
+
+        .tab-button:not(.active):hover {
+            background-color: #f0f9ff; /* sky-50 */
+        }
+
+        .output-block {
+            transition: background-color 0.3s ease;
+        }
+
+        .output-block:hover {
+            background-color: #f8fafc; /* slate-50 */
+        }
+
+        .btn {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-sky {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+        }
+
+        .btn-sky:hover {
+            background-color: #0284c7; /* sky-600 */
+        }
+
+        .btn-emerald {
+            background-color: #10b981; /* emerald-500 */
+            color: white;
+        }
+
+        .btn-emerald:hover {
+            background-color: #059669; /* emerald-600 */
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
+
+<div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-3xl">
+    <header class="mb-6 text-center">
+        <h1 class="text-4xl font-bold text-sky-700 mb-3">Vigenère-Chiffre Werkzeug</h1>
+        <p class="text-sm text-slate-600">
+            Die Vigenère-Chiffre erweitert die Caesar-Chiffre durch Verwendung eines Schlüsselworts anstelle einer
+            einzelnen Zahl.
+        </p>
+    </header>
+
+    <div class="bg-sky-100 border-l-4 border-sky-500 text-sky-800 p-4 rounded-md shadow-sm my-6 text-left" role="alert">
+        <div class="flex items-start">
+            <div class="ml-1">
+                <h4 class="text-md font-semibold text-sky-700">Hinweis zur Sicherheit</h4>
+                <p class="text-sm text-sky-700 mt-1">
+                    Obwohl die Vigenère-Chiffre stärker als die Caesar-Chiffre ist, gilt sie nach modernen Standards
+                    nicht als sicher und kann mit verschiedenen Methoden (z.B. Kasiski-Test, Friedman-Test) gebrochen
+                    werden.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-6 flex border-b border-slate-300">
+        <button id="tabKnownKeyword"
+                class="tab-button active flex-1 py-3 px-4 text-center font-medium text-slate-700 border-b-2 border-transparent hover:border-sky-300 focus:outline-none">
+            Mit bekanntem Schlüsselwort
+        </button>
+        <button id="tabUnknownKeyword"
+                class="tab-button flex-1 py-3 px-4 text-center font-medium text-slate-700 border-b-2 border-transparent hover:border-sky-300 focus:outline-none">
+            Analyse (unbek. Schlüsselwort)
+        </button>
+    </div>
+
+    <div id="modeKnownKeyword">
+        <section class="mb-6">
+            <label for="inputTextKnown" class="block text-base font-semibold text-slate-700 mb-2">Text eingeben:</label>
+            <textarea id="inputTextKnown" rows="4"
+                      class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                      placeholder="Text hier eingeben..."></textarea>
+        </section>
+
+        <section class="mb-6">
+            <label for="keywordInput" class="block text-base font-semibold text-slate-700 mb-2">Schlüsselwort (nur
+                Buchstaben A-Z):</label>
+            <input type="text" id="keywordInput"
+                   class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                   placeholder="z.B. GEHEIM">
+        </section>
+
+        <div class="flex space-x-4 mb-8">
+            <button id="encryptButton" class="btn btn-sky flex-1 py-2.5 px-5 rounded-lg font-semibold shadow-md">
+                Verschlüsseln
+            </button>
+            <button id="decryptButton" class="btn btn-emerald flex-1 py-2.5 px-5 rounded-lg font-semibold shadow-md">
+                Entschlüsseln
+            </button>
+        </div>
+
+        <section id="resultsKnown" class="space-y-4">
+            <h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Ergebnis</h2>
+        </section>
+    </div>
+
+    <div id="modeUnknownKeyword" class="hidden">
+        <section class="mb-6">
+            <label for="inputTextUnknown" class="block text-base font-semibold text-slate-700 mb-2">Verschlüsselten Text
+                eingeben:</label>
+            <textarea id="inputTextUnknown" rows="4"
+                      class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                      placeholder="Verschlüsselten Text hier eingeben..."></textarea>
+        </section>
+
+        <section class="mb-6">
+            <label for="maxKeywordLength" class="block text-base font-semibold text-slate-700 mb-2">Maximale
+                Schlüsselwortlänge analysieren (1-10):</label>
+            <input type="number" id="maxKeywordLength" min="1" max="10" value="5"
+                   class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base">
+        </section>
+
+        <div class="flex justify-center mb-8">
+            <button id="analyzeButton" class="btn btn-sky py-2.5 px-6 rounded-lg font-semibold shadow-md">Analyse
+                starten
+            </button>
+        </div>
+
+        <section id="resultsUnknown" class="space-y-2">
+            <h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Analyse der Komplexität</h2>
+        </section>
+    </div>
+</div>
+
+<footer class="mt-12 text-center text-sm text-slate-500">
+    <p>&copy; <span id="currentYear"></span> Kiunke.dev</p>
+</footer>
+
+<script>
+    const tabKnownKeyword = document.getElementById('tabKnownKeyword');
+    const tabUnknownKeyword = document.getElementById('tabUnknownKeyword');
+    const modeKnownKeywordDiv = document.getElementById('modeKnownKeyword');
+    const modeUnknownKeywordDiv = document.getElementById('modeUnknownKeyword');
+
+    const inputTextKnown = document.getElementById('inputTextKnown');
+    const keywordInput = document.getElementById('keywordInput');
+    const encryptButton = document.getElementById('encryptButton');
+    const decryptButton = document.getElementById('decryptButton');
+    const resultsKnownDiv = document.getElementById('resultsKnown');
+
+    const inputTextUnknown = document.getElementById('inputTextUnknown');
+    const maxKeywordLengthInput = document.getElementById('maxKeywordLength');
+    const analyzeButton = document.getElementById('analyzeButton');
+    const resultsUnknownDiv = document.getElementById('resultsUnknown');
+
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    function vigenereCipher(text, keyword, isDecrypt) {
+        if (!text) return "";
+        const normalizedKeyword = keyword.toUpperCase().replace(/[^A-Z]/g, '');
+        if (!normalizedKeyword) {
+            alert("Das Schlüsselwort darf nur Buchstaben enthalten und nicht leer sein.");
+            return text;
+        }
+
+        let result = '';
+        let keywordIndex = 0;
+
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            if (char.match(/[a-zA-Z]/)) {
+                const charCode = char.charCodeAt(0);
+                const base = (char === char.toLowerCase()) ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+
+                const keywordChar = normalizedKeyword[keywordIndex % normalizedKeyword.length];
+                const shift = keywordChar.charCodeAt(0) - 'A'.charCodeAt(0);
+
+                let processedCharCode;
+                if (isDecrypt) {
+                    processedCharCode = base + (charCode - base - shift + 26) % 26;
+                } else {
+                    processedCharCode = base + (charCode - base + shift) % 26;
+                }
+                result += String.fromCharCode(processedCharCode);
+                keywordIndex++;
+            } else {
+                result += char;
+            }
+        }
+        return result;
+    }
+
+    function displayResult(container, title, content, isError = false) {
+        container.innerHTML = `<h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">${container === resultsKnownDiv ? 'Ergebnis' : 'Analyse der Komplexität'}</h2>`;
+
+        const resultEntry = document.createElement('div');
+        resultEntry.className = `output-block p-4 border rounded-lg shadow-sm ${isError ? 'bg-red-50 border-red-300' : 'bg-slate-50 border-slate-300'}`;
+
+        if (title) {
+            const titleEl = document.createElement('h3');
+            titleEl.className = `text-md font-semibold ${isError ? 'text-red-700' : 'text-slate-700'} mb-1`;
+            titleEl.textContent = title;
+            resultEntry.appendChild(titleEl);
+        }
+
+        const contentP = document.createElement('p');
+        contentP.className = `text-sm break-all font-mono ${isError ? 'text-red-600' : 'text-slate-600'}`;
+        contentP.textContent = content;
+        resultEntry.appendChild(contentP);
+
+        container.appendChild(resultEntry);
+    }
+
+    function displayAnalysisResults(container, lines) {
+        container.innerHTML = `<h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Analyse der Komplexität</h2>`;
+        lines.forEach(line => {
+            const p = document.createElement('p');
+            p.className = 'text-sm text-slate-700 mb-1 p-2 bg-slate-50 rounded-md border border-slate-200';
+            p.innerHTML = line;
+            container.appendChild(p);
+        });
+    }
+
+
+    encryptButton.addEventListener('click', () => {
+        const text = inputTextKnown.value;
+        const keyword = keywordInput.value;
+        if (!text || !keyword) {
+            displayResult(resultsKnownDiv, "Fehler", "Bitte Text und Schlüsselwort eingeben.", true);
+            return;
+        }
+        if (!keyword.toUpperCase().replace(/[^A-Z]/g, '')) {
+            displayResult(resultsKnownDiv, "Fehler", "Das Schlüsselwort darf nur Buchstaben (A-Z) enthalten und nicht leer sein.", true);
+            return;
+        }
+        const encryptedText = vigenereCipher(text, keyword, false);
+        displayResult(resultsKnownDiv, "Verschlüsselter Text:", encryptedText);
+    });
+
+    decryptButton.addEventListener('click', () => {
+        const text = inputTextKnown.value;
+        const keyword = keywordInput.value;
+        if (!text || !keyword) {
+            displayResult(resultsKnownDiv, "Fehler", "Bitte Text und Schlüsselwort eingeben.", true);
+            return;
+        }
+        if (!keyword.toUpperCase().replace(/[^A-Z]/g, '')) {
+            displayResult(resultsKnownDiv, "Fehler", "Das Schlüsselwort darf nur Buchstaben (A-Z) enthalten und nicht leer sein.", true);
+            return;
+        }
+        const decryptedText = vigenereCipher(text, keyword, true);
+        displayResult(resultsKnownDiv, "Entschlüsselter Text:", decryptedText);
+    });
+
+    keywordInput.addEventListener('input', function (event) {
+        const originalValue = event.target.value;
+        const cursorPosition = event.target.selectionStart;
+        const sanitizedValue = originalValue.toUpperCase().replace(/[^A-Z]/g, '');
+
+        if (originalValue !== sanitizedValue) {
+            event.target.value = sanitizedValue;
+            const diff = originalValue.length - sanitizedValue.length;
+            let newCursorPosition = cursorPosition - diff;
+            if (newCursorPosition < 0) newCursorPosition = 0;
+            let removedBeforeCursor = 0;
+            for (let i = 0; i < cursorPosition; i++) {
+                if (!originalValue[i].match(/[A-Z]/i) && originalValue[i] !== '') {
+                    removedBeforeCursor++;
+                }
+            }
+            newCursorPosition = cursorPosition - removedBeforeCursor;
+
+            event.target.setSelectionRange(newCursorPosition, newCursorPosition);
+        }
+    });
+
+
+    analyzeButton.addEventListener('click', () => {
+        const text = inputTextUnknown.value;
+        const maxLength = parseInt(maxKeywordLengthInput.value, 10);
+
+        if (!text) {
+            displayResult(resultsUnknownDiv, "Fehler", "Bitte verschlüsselten Text für die Analyse eingeben.", true);
+            return;
+        }
+        if (isNaN(maxLength) || maxLength < 1 || maxLength > 10) {
+            displayResult(resultsUnknownDiv, "Fehler", "Bitte eine maximale Schlüsselwortlänge zwischen 1 und 10 eingeben.", true);
+            return;
+        }
+
+        const analysisLines = [];
+        let totalCalculations = BigInt(0);
+
+        for (let len = 1; len <= maxLength; len++) {
+            const combinations = BigInt(26) ** BigInt(len);
+            totalCalculations += combinations;
+            analysisLines.push(
+                `Für eine Schlüsselwortlänge von <strong>${len}</strong>: ${combinations.toLocaleString('de-DE')} mögliche alphabetische Schlüsselwörter.`
+            );
+        }
+        analysisLines.push("<hr class='my-2 border-slate-300'>");
+        analysisLines.push(
+            `Gesamtzahl der zu prüfenden Schlüsselwörter (bis Länge ${maxLength}): <strong>${totalCalculations.toLocaleString('de-DE')}</strong>.`
+        );
+        analysisLines.push("<p class='text-xs mt-2 text-slate-500'>Hinweis: Dies ist eine theoretische Anzahl. Echte Kryptoanalyse verwendet intelligentere Methoden, um den Suchraum zu verkleinern.</p>");
+
+
+        displayAnalysisResults(resultsUnknownDiv, analysisLines);
+    });
+
+    function switchTab(activeTab) {
+        if (activeTab === 'known') {
+            tabKnownKeyword.classList.add('active');
+            tabUnknownKeyword.classList.remove('active');
+            modeKnownKeywordDiv.classList.remove('hidden');
+            modeUnknownKeywordDiv.classList.add('hidden');
+            resultsKnownDiv.innerHTML = `<h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Ergebnis</h2><p class='text-center text-slate-500'>Geben Sie Text und Schlüsselwort ein.</p>`; // Reset
+        } else {
+            tabKnownKeyword.classList.remove('active');
+            tabUnknownKeyword.classList.add('active');
+            modeKnownKeywordDiv.classList.add('hidden');
+            modeUnknownKeywordDiv.classList.remove('hidden');
+            resultsUnknownDiv.innerHTML = `<h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Analyse der Komplexität</h2><p class='text-center text-slate-500'>Geben Sie Text und max. Schlüssellänge ein.</p>`; // Reset
+        }
+    }
+
+    tabKnownKeyword.addEventListener('click', () => switchTab('known'));
+    tabUnknownKeyword.addEventListener('click', () => switchTab('unknown'));
+
+    switchTab('known');
+    resultsKnownDiv.innerHTML = `<h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Ergebnis</h2><p class='text-center text-slate-500'>Geben Sie Text und Schlüsselwort ein.</p>`;
+    resultsUnknownDiv.innerHTML = `<h2 class="text-2xl font-semibold mb-4 text-center text-sky-600">Analyse der Komplexität</h2><p class='text-center text-slate-500'>Geben Sie Text und max. Schlüssellänge ein.</p>`;
+
+
+</script>
+</body>
+</html>

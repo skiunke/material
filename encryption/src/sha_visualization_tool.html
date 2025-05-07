@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Algorithmus Visualisierung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .step-box {
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            background-color: #f8fafc;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .step-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .data-block {
+            background-color: #e0f2fe;
+            border: 1px solid #7dd3fc;
+            color: #0c4a6e;
+            padding: 0.5rem;
+            margin: 0.25rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            word-break: break-all;
+            font-size: 0.8rem;
+        }
+        .arrow {
+            font-size: 2rem;
+            color: #38bdf8; /* sky-500 */
+            margin: 0 0.5rem;
+            line-height: 1;
+        }
+        .processing-animation div {
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
+
+<div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-4xl">
+    <header class="mb-8 text-center">
+        <h1 class="text-4xl font-bold text-sky-700 mb-3">SHA-256 Algorithmus Visualisierung</h1>
+        <p class="text-sm text-slate-600">
+            Diese Seite demonstriert konzeptionell die Funktionsweise des SHA-256 Hash-Algorithmus.
+            SHA (Secure Hash Algorithm) wird verwendet, um digitale Fingerabdrücke von Daten zu erzeugen,
+            die für Datenintegrität und digitale Signaturen wichtig sind.
+        </p>
+    </header>
+
+    <div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 p-4 rounded-md shadow-sm my-6 text-left" role="status">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-emerald-600 mr-3">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-1">
+                <h4 class="text-md font-semibold text-emerald-700">Zur Sicherheit von SHA-Algorithmen</h4>
+                <p class="text-sm text-emerald-700 mt-1">
+                    Die SHA-Familie, insbesondere SHA-2 (wie SHA-256) und SHA-3, gilt als Industriestandard und ist bei korrekter Anwendung
+                    sehr sicher gegen derzeit bekannte Angriffsformen. Sie erzeugen einen Hash-Wert fester Länge, bei dem schon kleinste
+                    Änderungen an der Eingabe zu einem völlig anderen Hash führen (Lawineneffekt). Es ist praktisch unmöglich (kollisionsresistent),
+                    zwei verschiedene Eingaben zu finden, die denselben Hash erzeugen, oder aus dem Hash auf die ursprüngliche Eingabe zurückzuschließen (Einwegfunktion).
+                    Die Sicherheit kryptographischer Algorithmen ist jedoch ein fortlaufendes Forschungsfeld.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <section class="mb-6">
+        <label for="inputTextSha" class="block text-base font-semibold text-slate-700 mb-2">Geben Sie einen Text für die Hash-Berechnung ein:</label>
+        <textarea id="inputTextSha" rows="3" class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base" placeholder="Z.B. Hallo Welt"></textarea>
+    </section>
+
+    <div class="flex justify-center mb-8">
+        <button id="visualizeButton" class="bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-6 rounded-lg font-semibold shadow-md transition duration-150 ease-in-out">
+            Visualisierung starten / Nächster Schritt
+        </button>
+    </div>
+
+    <div id="visualizationArea" class="space-y-4">
+    </div>
+</div>
+
+<footer class="mt-12 text-center text-sm text-slate-500">
+    <p>&copy; <span id="currentYear"></span> SHA-256 Visualisierung</p>
+</footer>
+
+<script>
+    const inputTextSha = document.getElementById('inputTextSha');
+    const visualizeButton = document.getElementById('visualizeButton');
+    const visualizationArea = document.getElementById('visualizationArea');
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    let currentStep = 0;
+    let steps = [];
+    let originalMessage = "";
+    let paddedMessageBinary = "";
+    let messageBlocks = [];
+
+    const H_initial = [
+        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+        0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+    ];
+    const K_constants_preview = [0x428a2f98, 0x71374491, 0xb5c0fbcf, /* ... */ 0xc6e00bf3];
+
+
+    function toBinary(str) {
+        return str.split('').map(char => {
+            return char.charCodeAt(0).toString(2).padStart(8, '0');
+        }).join('');
+    }
+
+    function hexToBinary(hexStr) {
+        return parseInt(hexStr, 16).toString(2).padStart(32, '0');
+    }
+
+    function binaryToHex(binStr) {
+        if (binStr.length % 4 !== 0) {
+            binStr = '0'.repeat((4 - binStr.length % 4) % 4) + binStr;
+        }
+        let hex = "";
+        for (let i = 0; i < binStr.length; i += 4) {
+            const nibble = binStr.substring(i, i + 4);
+            hex += parseInt(nibble, 2).toString(16);
+        }
+        return hex;
+    }
+
+
+    function preprocessMessage(message) {
+        const messageBinary = toBinary(message);
+        const originalLengthBinary = (messageBinary.length).toString(2).padStart(64, '0'); // 64-bit Darstellung der Länge
+
+        let padded = messageBinary + '1';
+
+        while (padded.length % 512 !== 448) {
+            padded += '0';
+        }
+
+        padded += originalLengthBinary;
+        paddedMessageBinary = padded; // Store for later use
+        return padded;
+    }
+
+    function parseIntoBlocks(paddedBinary) {
+        const blocks = [];
+        for (let i = 0; i < paddedBinary.length; i += 512) {
+            blocks.push(paddedBinary.substring(i, i + 512));
+        }
+        return blocks;
+    }
+
+    function conceptualHashGeneration(inputStr, blockCount) {
+        let hash = 0;
+        for (let i = 0; i < inputStr.length; i++) {
+            hash = (hash << 5) - hash + inputStr.charCodeAt(i);
+            hash |= 0; // Convert to 32bit integer
+        }
+        hash = (hash * (blockCount + 1)) ^ 0xABCDEF12;
+        hash |= 0;
+
+        let hexHash = (hash >>> 0).toString(16).padStart(8, '0'); // >>> 0 für unsigned
+        while(hexHash.length < 64) {
+            hash = (hash * 1664525 + 1013904223) | 0; // LCG
+            hexHash += (hash >>> 0).toString(16).padStart(8, '0');
+        }
+        return hexHash.substring(0, 64);
+    }
+
+
+    function createStepElement(title, contentHtml) {
+        const el = document.createElement('div');
+        el.className = 'step-box';
+        el.innerHTML = `
+                <h3 class="text-xl font-semibold text-sky-600 mb-3">${title}</h3>
+                <div class="text-sm text-slate-700 leading-relaxed">${contentHtml}</div>
+            `;
+        visualizationArea.appendChild(el);
+        void el.offsetWidth;
+        el.classList.add('visible');
+        el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    function defineSteps() {
+        steps = [];
+        originalMessage = inputTextSha.value;
+        if (!originalMessage) {
+            createStepElement("Fehler", "<p>Bitte geben Sie zuerst einen Text ein.</p>");
+            return false;
+        }
+
+        const paddedBinary = preprocessMessage(originalMessage);
+        messageBlocks = parseIntoBlocks(paddedBinary);
+
+        steps.push(() => {
+            createStepElement("Schritt 1: Ihre Eingabe", `
+                    <p>Originalnachricht:</p>
+                    <div class="data-block">${originalMessage}</div>
+                    <p class="mt-2">Länge der Originalnachricht: ${originalMessage.length} Zeichen = ${originalMessage.length * 8} Bits.</p>
+                `);
+        });
+
+        steps.push(() => {
+            const messageBinary = toBinary(originalMessage);
+            createStepElement("Schritt 2: Vorverarbeitung (Padding)", `
+                    <p>Nachricht in Binärform (erste 128 Bits):</p>
+                    <div class="data-block">${messageBinary.substring(0,128)}${messageBinary.length > 128 ? '...' : ''}</div>
+                    <p class="mt-2">1. Anhängen eines '1'-Bits.</p>
+                    <p>2. Anhängen von '0'-Bits, bis die Nachrichtenlänge ≡ 448 (mod 512) ist.</p>
+                    <p>3. Anhängen der 64-Bit-Repräsentation der ursprünglichen Nachrichtenlänge.</p>
+                    <p class="mt-2">Gepaddete Nachricht (Ausschnitt der ersten und letzten Bits):</p>
+                    <div class="data-block">${paddedBinary.substring(0,64)}...${paddedBinary.substring(paddedBinary.length - 64)}</div>
+                    <p class="mt-2">Gesamtlänge der gepaddeten Nachricht: ${paddedBinary.length} Bits. Dies ist ein Vielfaches von 512.</p>
+                `);
+        });
+
+        steps.push(() => {
+            let blocksHtml = messageBlocks.map((block, index) =>
+                `<p>Block ${index + 1} (512 Bits, erste 64 Bits):</p><div class="data-block">${block.substring(0,64)}...</div>`
+            ).join('');
+            createStepElement("Schritt 3: Aufteilung in 512-Bit Blöcke", `
+                    <p>Die gepaddete Nachricht wird in ${messageBlocks.length} Blöcke à 512 Bits aufgeteilt.</p>
+                    ${blocksHtml}
+                `);
+        });
+
+        steps.push(() => {
+            let hValuesHtml = H_initial.map((val, i) =>
+                `<div>H<sub>${i}</sub> = <span class="data-block !inline-block !py-0.5 !px-1.5">${val.toString(16)}</span></div>`
+            ).join('');
+            createStepElement("Schritt 4: Initialisierung der Hash-Werte (H)", `
+                    <p>SHA-256 verwendet 8 initiale 32-Bit Hash-Werte (Konstanten):</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">${hValuesHtml}</div>
+                `);
+        });
+
+        messageBlocks.forEach((block, blockIndex) => {
+            steps.push(() => {
+                let kPreviewHtml = K_constants_preview.slice(0,3).map(k => `<span class="data-block !inline-block !py-0.5 !px-1.5">${k.toString(16)}</span>`).join(' ');
+
+                createStepElement(`Schritt 5.${blockIndex + 1}: Verarbeitung von Block ${blockIndex + 1}`, `
+                        <p>Jeder 512-Bit Block wird einzeln verarbeitet.</p>
+                        <div class="data-block">Aktueller Block (erste 64 Bits): ${block.substring(0,64)}...</div>
+                        <p class="mt-2">Interne Schritte (stark vereinfacht):</p>
+                        <ol class="list-decimal list-inside ml-4 mt-1 space-y-1">
+                            <li><strong>Nachrichtenaufbereitung (Message Schedule W<sub>0</sub>-W<sub>63</sub>):</strong> Der 512-Bit Block wird in 64 32-Bit Wörter (W<sub>t</sub>) expandiert.</li>
+                            <li><strong>Initialisierung der Arbeitsvariablen (a-h):</strong> Die aktuellen Hash-Werte (H<sub>0</sub>-H<sub>7</sub> aus dem vorherigen Schritt) werden in 8 Arbeitsvariablen (a,b,c,d,e,f,g,h) kopiert.</li>
+                            <li><strong>Hauptschleife (64 Runden):</strong>
+                                <div class="my-2 p-3 border border-sky-300 rounded-md bg-sky-50 processing-animation">
+                                    <div class="data-block">W<sub>t</sub> (Nachrichtenwort)</div> <span class="arrow">&rarr;</span>
+                                    <div class="data-block">K<sub>t</sub> (Rundenkonstante, z.B. ${kPreviewHtml}...)</div> <span class="arrow">&rarr;</span>
+                                    <div class="data-block">Komplexe Rundenlogik (Σ, Maj, Ch)</div> <span class="arrow">&rarr;</span>
+                                    <div class="data-block">(a,b,c,d,e,f,g,h) werden aktualisiert</div>
+                                </div>
+                                In jeder Runde werden die Arbeitsvariablen durch eine Reihe von bitweisen Operationen, Rotationen, Additionen und unter Verwendung der Nachrichtenwörter W<sub>t</sub> und Rundenkonstanten K<sub>t</sub> modifiziert.
+                            </li>
+                            <li><strong>Aktualisierung der Hash-Werte:</strong> Die Werte der Arbeitsvariablen (a-h) werden zu den bisherigen Hash-Werten (H<sub>0</sub>-H<sub>7</sub>) addiert, um die neuen H-Werte für den nächsten Block (oder das Endergebnis) zu bilden.</li>
+                        </ol>
+                        <p class="mt-2 text-xs text-slate-500">Dies ist eine stark vereinfachte Darstellung. Die tatsächlichen Berechnungen sind mathematisch komplex.</p>
+                    `);
+            });
+        });
+
+        steps.push(() => {
+            const finalConceptualHash = conceptualHashGeneration(originalMessage, messageBlocks.length);
+            createStepElement("Schritt 6: Endgültiger Hash-Wert", `
+                    <p>Nachdem alle Blöcke verarbeitet wurden, werden die endgültigen Werte der 8 Hash-Variablen (H<sub>0</sub> bis H<sub>7</sub>) konkateniert, um den 256-Bit SHA-256 Hash-Wert zu bilden.</p>
+                    <p class="mt-2">Konzeptioneller Hash-Wert für "${originalMessage}":</p>
+                    <div class="data-block text-lg !bg-emerald-100 !border-emerald-400 !text-emerald-800">${finalConceptualHash}</div>
+                    <p class="mt-1 text-xs text-slate-500">Hinweis: Der oben gezeigte Hash ist nur zu Demonstrationszwecken generiert und ist <strong>kein</strong> echter SHA-256 Hash Ihrer Eingabe. Die tatsächliche Berechnung ist hier nicht implementiert.</p>
+                `);
+        });
+        return true;
+    }
+
+    function nextStep() {
+        if (currentStep < steps.length) {
+            steps[currentStep]();
+            currentStep++;
+            if (currentStep === steps.length) {
+                visualizeButton.textContent = "Visualisierung zurücksetzen";
+            }
+        } else {
+            visualizationArea.innerHTML = '';
+            currentStep = 0;
+            originalMessage = "";
+            paddedMessageBinary = "";
+            messageBlocks = [];
+            visualizeButton.textContent = "Visualisierung starten / Nächster Schritt";
+            inputTextSha.value = "";
+        }
+    }
+
+    visualizeButton.addEventListener('click', () => {
+        if (currentStep === 0) {
+            visualizationArea.innerHTML = '';
+            if (defineSteps()) {
+                nextStep();
+            }
+        } else {
+            nextStep();
+        }
+    });
+</script>
+</body>
+</html>

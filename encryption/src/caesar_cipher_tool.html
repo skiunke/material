@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar-Chiffre Werkzeug</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .output-block {
+            transition: background-color 0.3s ease;
+        }
+
+        .output-block:hover {
+            background-color: #f0f4f8;
+        }
+
+        .btn {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-sky {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+        }
+
+        .btn-sky:hover {
+            background-color: #0284c7; /* sky-600 */
+        }
+
+        .btn-emerald {
+            background-color: #10b981; /* emerald-500 */
+            color: white;
+        }
+
+        .btn-emerald:hover {
+            background-color: #059669; /* emerald-600 */
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
+
+<div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-3xl">
+    <header class="mb-8 text-center">
+        <h1 class="text-4xl font-bold text-sky-700 mb-3">Caesar-Chiffre Werkzeug</h1>
+
+        <div class="bg-sky-100 border-l-4 border-sky-500 text-sky-800 p-4 rounded-md shadow-sm my-6" role="alert">
+            <div class="flex items-start">
+
+                <div class="ml-1">
+                    <h4 class="text-md font-semibold text-sky-700">Hinweis zur Caesar-Verschlüsselung</h4>
+                    <p class="text-sm text-sky-700 mt-1">
+                        Die Caesar-Verschlüsselung ist eine der einfachsten und bekanntesten Verschlüsselungstechniken.
+                        Bedenken Sie jedoch, dass sie <strong>nicht für die Sicherung sensibler Daten</strong> geeignet
+                        ist,
+                        da sie sehr leicht durch Brute-Force-Methoden (Ausprobieren aller Schlüssel) gebrochen werden
+                        kann.
+                        Dieses Werkzeug dient primär zu Demonstrations- und Lernzwecken.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <div class="flex justify-center mb-6">
+        <button id="toggleModeButton" class="btn btn-sky py-2 px-5 rounded-lg font-semibold shadow-md">
+            Zum Entschlüsselungsmodus wechseln
+        </button>
+    </div>
+
+    <section class="mb-6">
+        <label for="inputText" id="inputTextLabel" class="block text-base font-semibold text-slate-700 mb-2">Geben Sie
+            Ihren Text zur Verschlüsselung ein:</label>
+        <textarea id="inputText" rows="4"
+                  class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                  placeholder="Text hier eingeben..."></textarea>
+    </section>
+
+    <section id="shiftSelectorSection" class="mb-8">
+        <label for="shiftSelect" id="shiftSelectLabel" class="block text-base font-semibold text-slate-700 mb-2">Wählen
+            Sie die Verschiebung (Schlüssel):</label>
+        <select id="shiftSelect"
+                class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-base rounded-lg shadow-sm">
+        </select>
+    </section>
+
+    <section id="results" class="space-y-4">
+        <h2 id="resultsTitle" class="text-3xl font-semibold mb-6 text-center text-sky-600">Ergebnis</h2>
+    </section>
+
+</div>
+
+<footer class="mt-12 text-center text-sm text-slate-500">
+    <p>&copy; <span id="currentYear"></span> Kiunke.dev</p>
+</footer>
+
+<script>
+    const inputText = document.getElementById('inputText');
+    const inputTextLabel = document.getElementById('inputTextLabel');
+    const shiftSelect = document.getElementById('shiftSelect');
+    const shiftSelectorSection = document.getElementById('shiftSelectorSection');
+    const resultsDiv = document.getElementById('results');
+    const resultsTitle = document.getElementById('resultsTitle');
+    const toggleModeButton = document.getElementById('toggleModeButton');
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+
+    let currentMode = 'encode';
+
+    for (let i = 1; i <= 25; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `Verschiebung ${i}`;
+        shiftSelect.appendChild(option);
+    }
+    shiftSelect.value = '3';
+
+    function caesarCipher(str, shift, performDecode = false) {
+        if (!str) return "";
+        let effectiveShift = shift;
+        if (performDecode) {
+            effectiveShift = (26 - shift) % 26;
+        }
+
+        return str.replace(/[a-zA-Z]/g, (char) => {
+            const base = char.toLowerCase() === char ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+            let code = char.charCodeAt(0);
+            // only letters
+            if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
+                code = base + (code - base + effectiveShift) % 26;
+            }
+            return String.fromCharCode(code);
+        });
+    }
+
+    function createResultDisplay(titleText, contentText, contentClasses = 'text-slate-600 bg-slate-50 border-slate-300') {
+        const resultEntry = document.createElement('div');
+        resultEntry.className = 'output-block p-5 border border-slate-200 rounded-lg shadow-md bg-white';
+
+        const title = document.createElement('h3');
+        title.className = 'text-lg font-semibold text-slate-700';
+        title.textContent = titleText;
+        resultEntry.appendChild(title);
+
+        const contentP = document.createElement('p');
+        contentP.className = `text-md break-all p-3 rounded border my-2 font-mono ${contentClasses}`;
+        contentP.textContent = contentText || "---";
+        resultEntry.appendChild(contentP);
+
+        return resultEntry;
+    }
+
+    function updateUIForMode() {
+        if (currentMode === 'encode') {
+            toggleModeButton.textContent = 'Zum Entschlüsselungsmodus wechseln';
+            toggleModeButton.classList.remove('btn-emerald');
+            toggleModeButton.classList.add('btn-sky');
+            inputTextLabel.textContent = 'Geben Sie Ihren Text zur Verschlüsselung ein:';
+            inputText.placeholder = 'Klartext hier eingeben...';
+            shiftSelectorSection.style.display = 'block';
+            resultsTitle.textContent = "Verschlüsseltes Ergebnis";
+        } else {
+            toggleModeButton.textContent = 'Zum Verschlüsselungsmodus wechseln';
+            toggleModeButton.classList.remove('btn-sky');
+            toggleModeButton.classList.add('btn-emerald');
+            inputTextLabel.textContent = 'Geben Sie den verschlüsselten Text ein:';
+            inputText.placeholder = 'Verschlüsselten Text hier eingeben...';
+            shiftSelectorSection.style.display = 'none';
+            resultsTitle.textContent = "Mögliche Entschlüsselungen (Brute-Force)";
+        }
+        updateResults();
+    }
+
+    function updateResults() {
+        const text = inputText.value;
+        while (resultsDiv.firstChild && resultsDiv.firstChild !== resultsTitle) {
+            if (resultsDiv.firstChild.id !== "resultsTitle") {
+                resultsDiv.removeChild(resultsDiv.firstChild);
+            } else {
+                break;
+            }
+        }
+        if (!resultsDiv.contains(resultsTitle) || resultsDiv.firstChild !== resultsTitle) {
+            resultsDiv.innerHTML = '';
+            resultsDiv.appendChild(resultsTitle);
+        } else {
+            let child = resultsDiv.lastChild;
+            while (child && child !== resultsTitle) {
+                resultsDiv.removeChild(child);
+                child = resultsDiv.lastChild;
+            }
+        }
+
+
+        if (!text.trim()) {
+            const p = document.createElement('p');
+            p.textContent = "Bitte geben Sie einen Text ein.";
+            p.className = "text-center text-slate-500 text-lg py-4";
+            resultsDiv.appendChild(p);
+            return;
+        }
+
+        if (currentMode === 'encode') {
+            const selectedShift = parseInt(shiftSelect.value, 10);
+            const encodedText = caesarCipher(text, selectedShift, false);
+            const resultDisplay = createResultDisplay(
+                `Verschlüsselt mit Schlüssel ${selectedShift}:`,
+                encodedText,
+                'text-sky-800 bg-sky-50 border-sky-300'
+            );
+            resultsDiv.appendChild(resultDisplay);
+        } else {
+            for (let i = 1; i <= 25; i++) {
+                const decodedText = caesarCipher(text, i, true);
+                const resultDisplay = createResultDisplay(
+                    `Mögliche Entschlüsselung (mit Versuchsschlüssel ${i}):`,
+                    decodedText,
+                    (text.length > 0 && decodedText.match(/[enisratdhulcgmobwfkzpvjyqx]/i)) ? 'text-green-800 bg-green-100 border-green-400' : 'text-slate-600 bg-slate-50 border-slate-300'
+                );
+                resultsDiv.appendChild(resultDisplay);
+            }
+        }
+    }
+
+    toggleModeButton.addEventListener('click', () => {
+        currentMode = currentMode === 'encode' ? 'decode' : 'encode';
+        updateUIForMode();
+    });
+
+    inputText.addEventListener('input', updateResults);
+    shiftSelect.addEventListener('change', updateResults);
+
+
+    updateUIForMode();
+</script>
+
+</body>
+</html>
