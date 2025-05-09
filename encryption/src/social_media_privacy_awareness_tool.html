@@ -9,35 +9,47 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .post-card {
             transition: box-shadow 0.3s ease;
         }
+
         .post-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .log-entry {
             border-left-width: 4px;
             transition: background-color 0.3s ease;
         }
+
         .log-entry:hover {
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
         }
+
         .tracking-toast {
             transition: opacity 0.5s ease, transform 0.5s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
+
         .tracking-toast-icon {
             animation: bounce-icon 1s ease-in-out;
         }
+
         @keyframes bounce-icon {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-5px) scale(1.1); }
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-5px) scale(1.1);
+            }
         }
+
         .info-box {
-            background-color: #eef2ff; /* indigo-50 */
+            background-color: #eef2ff;
             border-left-width: 4px;
-            border-color: #6366f1; /* indigo-500 */
-            color: #3730a3; /* indigo-800 */
+            border-color: #6366f1;
+            color: #3730a3;
         }
     </style>
 </head>
@@ -47,30 +59,47 @@
     <div class="container mx-auto flex justify-between items-center">
         <h1 class="text-2xl font-bold">SocialNet Demo</h1>
         <div class="flex items-center space-x-4">
-            <a href="user_profile_summary.html" id="profileSummaryLink" class="text-sm hover:bg-sky-700 px-3 py-2 rounded-md transition-colors">Mein Daten-Profil (Demo)</a>
+            <a href="user_profile_summary.html" id="profileSummaryLink"
+               class="text-sm hover:bg-sky-700 px-3 py-2 rounded-md transition-colors">Mein Daten-Profil (Demo)</a>
             <div class="w-64">
-                <input type="search" id="searchInput" placeholder="Feed durchsuchen..." class="w-full p-2 rounded-md bg-sky-100 text-slate-700 focus:ring-2 focus:ring-sky-400 focus:outline-none" />
+                <input type="search" id="searchInput" placeholder="Feed durchsuchen..."
+                       class="w-full p-2 rounded-md bg-sky-100 text-slate-700 focus:ring-2 focus:ring-sky-400 focus:outline-none"/>
             </div>
+
         </div>
     </div>
+
 </nav>
 
 <div class="container mx-auto p-4 mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
     <aside class="md:col-span-1 space-y-6">
         <div class="bg-white p-4 rounded-lg shadow-lg sticky top-24">
             <h2 class="text-xl font-semibold text-sky-700 mb-4 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-2 text-sky-500">
-                    <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.509a.75.75 0 0 0 .5.707A9.735 9.735 0 0 0 6 21a9.707 9.707 0 0 0 5.25-1.533A9.707 9.707 0 0 0 18 21a9.735 9.735 0 0 0 3.25-.555.75.75 0 0 0 .5-.707V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533Z" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="w-6 h-6 mr-2 text-sky-500">
+                    <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.509a.75.75 0 0 0 .5.707A9.735 9.735 0 0 0 6 21a9.707 9.707 0 0 0 5.25-1.533A9.707 9.707 0 0 0 18 21a9.735 9.735 0 0 0 3.25-.555.75.75 0 0 0 .5-.707V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533Z"/>
                 </svg>
+
                 Tracking-Logbuch
+
             </h2>
+            <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück
+                zur Startseite</a>
+
+
             <div id="trackingLogContainer" class="space-y-3 max-h-[calc(100vh-24rem)] overflow-y-auto pr-2">
-                <p class="text-sm text-slate-500 italic initial-log-message">Hier siehst du, was die App über deine Aktionen lernt...</p>
+                <p class="text-sm text-slate-500 italic initial-log-message">Hier siehst du, was die App über deine
+                    Aktionen lernt...</p>
             </div>
+
+
             <div id="deviceInfoBox" class="info-box p-4 rounded-md shadow-lg">
                 <h3 class="text-lg font-semibold mb-2 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
-                        <path fill-rule="evenodd" d="M2.25 5.25a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3V15a3 3 0 0 1-3 3h-13.5a3 3 0 0 1-3-3V5.25Zm1.5 0v1.5A1.5 1.5 0 0 0 5.25 8.25h13.5A1.5 1.5 0 0 0 20.25 6.75V5.25a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5ZM2.25 10.5a.75.75 0 0 0 0 1.5h19.5a.75.75 0 0 0 0-1.5H2.25Z" clip-rule="evenodd" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                         class="w-5 h-5 mr-2">
+                        <path fill-rule="evenodd"
+                              d="M2.25 5.25a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3V15a3 3 0 0 1-3 3h-13.5a3 3 0 0 1-3-3V5.25Zm1.5 0v1.5A1.5 1.5 0 0 0 5.25 8.25h13.5A1.5 1.5 0 0 0 20.25 6.75V5.25a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5ZM2.25 10.5a.75.75 0 0 0 0 1.5h19.5a.75.75 0 0 0 0-1.5H2.25Z"
+                              clip-rule="evenodd"/>
                     </svg>
                     Deine Geräte-Infos (Simuliert)
                 </h3>
@@ -83,24 +112,35 @@
                     <li id="deviceTimezone"><strong>Zeitzone:</strong> <span class="font-mono"></span></li>
                 </ul>
             </div>
+
         </div>
 
     </aside>
 
     <main class="md:col-span-2 space-y-6" id="feedContainer">
-    </main>
-</div>
 
-<div id="trackingToast" class="tracking-toast fixed bottom-5 right-5 bg-sky-500 text-white p-4 rounded-lg shadow-xl max-w-sm opacity-0 transform translate-y-10 pointer-events-none z-50">
+    </main>
+
+
+</div>
+<footer class="mt-12 text-center text-sm text-slate-500">
+    <p>&copy; Kiunke.dev</p>
+</footer>
+<div id="trackingToast"
+     class="tracking-toast fixed bottom-5 right-5 bg-sky-500 text-white p-4 rounded-lg shadow-xl max-w-sm opacity-0 transform translate-y-10 pointer-events-none z-50">
     <div class="flex items-start">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 mr-3 text-white tracking-toast-icon flex-shrink-0">
-            <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 5.159-4.502 2.056 2.056 0 0 0 1.584-2.28l-.289-1.611a1.026 1.026 0 0 0-.956-.707H18.57a1.025 1.025 0 0 0-.956.707l-.289 1.611a2.056 2.056 0 0 1-1.584 2.28 16.973 16.973 0 0 1-5.159 4.502l-.07.04-.028.016a.76.76 0 0 1-.723 0l-.028-.015-.071-.041a16.975 16.975 0 0 1-5.159-4.502 2.056 2.056 0 0 1-1.584-2.28l.289-1.611A1.026 1.026 0 0 1 4.43 13.25H5.43a1.025 1.025 0 0 1 .956.707l.289 1.611a2.056 2.056 0 0 0 1.584 2.28 16.973 16.973 0 0 0 5.159 4.502ZM8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0Z" clip-rule="evenodd" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="w-8 h-8 mr-3 text-white tracking-toast-icon flex-shrink-0">
+            <path fill-rule="evenodd"
+                  d="M11.54 22.351l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 5.159-4.502 2.056 2.056 0 0 0 1.584-2.28l-.289-1.611a1.026 1.026 0 0 0-.956-.707H18.57a1.025 1.025 0 0 0-.956.707l-.289 1.611a2.056 2.056 0 0 1-1.584 2.28 16.973 16.973 0 0 1-5.159 4.502l-.07.04-.028.016a.76.76 0 0 1-.723 0l-.028-.015-.071-.041a16.975 16.975 0 0 1-5.159-4.502 2.056 2.056 0 0 1-1.584-2.28l.289-1.611A1.026 1.026 0 0 1 4.43 13.25H5.43a1.025 1.025 0 0 1 .956.707l.289 1.611a2.056 2.056 0 0 0 1.584 2.28 16.973 16.973 0 0 0 5.159 4.502ZM8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0Z"
+                  clip-rule="evenodd"/>
         </svg>
         <div>
             <p class="font-semibold text-base">Psst! Notiz im Logbuch!</p>
             <p id="toastMessage" class="text-sm"></p>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -111,7 +151,6 @@
     const trackingToast = document.getElementById('trackingToast');
     const toastMessage = document.getElementById('toastMessage');
 
-    // Device Info Elements
     const deviceOsEl = document.getElementById('deviceOs').querySelector('span');
     const deviceBrowserEl = document.getElementById('deviceBrowser').querySelector('span');
     const deviceIpEl = document.getElementById('deviceIp').querySelector('span');
@@ -123,23 +162,55 @@
     let trackingLog = [];
 
     const samplePosts = [
-        { id: 1, author: "ReiseLust", avatar: "https://placehold.co/50x50/0ea5e9/ffffff?text=RL", content: "Traumhafter Sonnenuntergang am Meer! 🌅 Nächste Woche geht es in die Berge. #Reisen #Alpen", image: "https://placehold.co/600x400/fed7aa/8c2d04?text=Sonnenuntergang", likes: 123, comments: [{ user: "BergsteigerTom", text: "Route XYZ!" }] },
-        { id: 2, author: "TechGuru", avatar: "https://placehold.co/50x50/10b981/ffffff?text=TG", content: "Das neue XYZ Smartphone ist da! 📱 #Technik #Neuheit", image: "https://placehold.co/600x400/a7f3d0/059669?text=Smartphone", likes: 88, comments: [{ user: "GadgetFan", text: "Tests abwarten." }] },
-        { id: 3, author: "KochKunst", avatar: "https://placehold.co/50x50/f97316/ffffff?text=KK", content: "Selbstgemachte Pasta! 🍝 #Kochen #Foodie", image: "https://placehold.co/600x400/fcd34d/b45309?text=Pasta", likes: 210, comments: [] },
-        { id: 4, author: "FitnessFreak", avatar: "https://placehold.co/50x50/ef4444/ffffff?text=FF", content: "Neues HIIT Workout! 🔥 #Fitness #Gesundheit", image: null, likes: 150, comments: [ { user: "SportySpice", text: "Anstrengend!"}] }
+        {
+            id: 1,
+            author: "ReiseLust",
+            avatar: "https://placehold.co/50x50/0ea5e9/ffffff?text=RL",
+            content: "Traumhafter Sonnenuntergang am Meer! 🌅 Nächste Woche geht es in die Berge. #Reisen #Alpen",
+            image: "https://placehold.co/600x400/fed7aa/8c2d04?text=Sonnenuntergang",
+            likes: 123,
+            comments: [{user: "BergsteigerTom", text: "Route XYZ!"}]
+        },
+        {
+            id: 2,
+            author: "TechGuru",
+            avatar: "https://placehold.co/50x50/10b981/ffffff?text=TG",
+            content: "Das neue XYZ Smartphone ist da! 📱 #Technik #Neuheit",
+            image: "https://placehold.co/600x400/a7f3d0/059669?text=Smartphone",
+            likes: 88,
+            comments: [{user: "GadgetFan", text: "Tests abwarten."}]
+        },
+        {
+            id: 3,
+            author: "KochKunst",
+            avatar: "https://placehold.co/50x50/f97316/ffffff?text=KK",
+            content: "Selbstgemachte Pasta! 🍝 #Kochen #Foodie",
+            image: "https://placehold.co/600x400/fcd34d/b45309?text=Pasta",
+            likes: 210,
+            comments: []
+        },
+        {
+            id: 4,
+            author: "FitnessFreak",
+            avatar: "https://placehold.co/50x50/ef4444/ffffff?text=FF",
+            content: "Neues HIIT Workout! 🔥 #Fitness #Gesundheit",
+            image: null,
+            likes: 150,
+            comments: [{user: "SportySpice", text: "Anstrengend!"}]
+        }
     ];
 
     const logExplanations = {
         likePost: {
             actionIcon: "❤️",
-            actionTextTemplate: (details) => `Du hast Beitrag "${details.postContent.substring(0,20)}..." geliked!`,
+            actionTextTemplate: (details) => `Du hast Beitrag "${details.postContent.substring(0, 20)}..." geliked!`,
             dataCollectedIcons: ["🆔", "🕒", "👤"],
             dataCollectedTooltips: ["ID des Beitrags", "Zeitpunkt des Likes", "Dein Benutzerprofil"],
             inferenceTemplate: (details) => `Du scheinst ${getTopicFromContent(details.postContent)} zu mögen.`
         },
         addComment: {
             actionIcon: "💬",
-            actionTextTemplate: (details) => `Du hast "${details.commentText.substring(0,15)}..." zu "${details.postContent.substring(0,15)}..." kommentiert.`,
+            actionTextTemplate: (details) => `Du hast "${details.commentText.substring(0, 15)}..." zu "${details.postContent.substring(0, 15)}..." kommentiert.`,
             dataCollectedIcons: ["🆔", "🕒", "👤", "📝"],
             dataCollectedTooltips: ["ID des Beitrags", "Zeitpunkt", "Dein Profil", "Inhalt des Kommentars"],
             inferenceTemplate: (details) => `Du hast eine Meinung zu ${getTopicFromContent(details.postContent)}.`
@@ -153,21 +224,21 @@
         },
         viewPost: {
             actionIcon: "👀",
-            actionTextTemplate: (details) => `Du siehst dir gerade den Beitrag "${details.postContent.substring(0,20)}..." an.`,
+            actionTextTemplate: (details) => `Du siehst dir gerade den Beitrag "${details.postContent.substring(0, 20)}..." an.`,
             dataCollectedIcons: ["🆔", "🕒", "👤"],
             dataCollectedTooltips: ["ID des Beitrags", "Zeitpunkt des Ansehens", "Dein Profil"],
             inferenceTemplate: (details) => `Der Beitrag über ${getTopicFromContent(details.postContent)} ist in deinem Blickfeld.`
         },
         elementFocusDuration: {
             actionIcon: "⏱️",
-            actionTextTemplate: (details) => `Du hast dich ${details.duration}s mit "${details.postContent.substring(0,20)}..." beschäftigt.`,
+            actionTextTemplate: (details) => `Du hast dich ${details.duration}s mit "${details.postContent.substring(0, 20)}..." beschäftigt.`,
             dataCollectedIcons: ["🆔", "⏳", "👤"],
             dataCollectedTooltips: ["ID des Beitrags", "Verweildauer", "Dein Profil"],
             inferenceTemplate: (details) => `Dieser Inhalt hat dich ${details.duration > 3 ? 'besonders' : 'kurz'} interessiert.`
         },
         genericClick: {
             actionIcon: "🖱️",
-            actionTextTemplate: (details) => `Klick auf ${details.elementType} ${details.elementDetail ? `(${details.elementDetail.substring(0,20)})` : ''} bei X:${details.x}, Y:${details.y}.`,
+            actionTextTemplate: (details) => `Klick auf ${details.elementType} ${details.elementDetail ? `(${details.elementDetail.substring(0, 20)})` : ''} bei X:${details.x}, Y:${details.y}.`,
             dataCollectedIcons: ["🎯", "📍", "🕒", "👤"],
             dataCollectedTooltips: ["Geklicktes Element", "Klick-Position", "Zeitpunkt", "Dein Profil"],
             inferenceTemplate: (details) => `Du interagierst mit verschiedenen Teilen der Seite, z.B. mit ${details.elementType === 'BUTTON' ? 'Buttons' : 'Bereichen'}.`
@@ -213,6 +284,7 @@
     }
 
     let toastTimeout;
+
     function showTrackingToast(message) {
         toastMessage.textContent = message;
         trackingToast.classList.remove('opacity-0', 'translate-y-10');
@@ -231,7 +303,11 @@
         const logInfo = logExplanations[actionKey];
         if (!logInfo) return;
 
-        const timestamp = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const timestamp = new Date().toLocaleTimeString('de-DE', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
         const actionText = typeof logInfo.actionTextTemplate === 'function' ? logInfo.actionTextTemplate(actionDetail) : String(actionDetail);
         const inferenceText = typeof logInfo.inferenceTemplate === 'function' ? logInfo.inferenceTemplate(actionDetail) : "Interesse gezeigt.";
 
@@ -244,18 +320,18 @@
         };
         trackingLog.unshift(logEntry);
         renderTrackingLog();
-        showTrackingToast(`Neuer Log-Eintrag: ${actionText.substring(0,40)}...`);
+        showTrackingToast(`Neuer Log-Eintrag: ${actionText.substring(0, 40)}...`);
     }
 
     function renderTrackingLog() {
-        const fragment = document.createDocumentFragment(); // Für bessere Performance beim Einfügen vieler Elemente
+        const fragment = document.createDocumentFragment();
         if (trackingLog.length === 0 && initialLogMessage) {
             initialLogMessage.style.display = 'block';
-            trackingLogContainer.innerHTML = ''; // Sicherstellen, dass es leer ist, bevor die Init-Nachricht gezeigt wird
+            trackingLogContainer.innerHTML = '';
             trackingLogContainer.appendChild(initialLogMessage);
         } else {
-            if(initialLogMessage) initialLogMessage.style.display = 'none';
-            trackingLogContainer.innerHTML = ''; // Leere für komplette Neuzeichnung
+            if (initialLogMessage) initialLogMessage.style.display = 'none';
+            trackingLogContainer.innerHTML = '';
             trackingLog.forEach(entry => {
                 const logElement = document.createElement('div');
                 logElement.className = 'log-entry bg-white p-3 rounded-md border-sky-500 shadow';
@@ -324,7 +400,7 @@
                     const postContent = targetPost.dataset.postContent;
                     if (entry.isIntersecting) {
                         if (!targetPost.dataset.viewTracked) {
-                            addLogEntry('viewPost', { postContent });
+                            addLogEntry('viewPost', {postContent});
                             targetPost.dataset.viewTracked = 'true';
                         }
                         targetPost.dataset.viewStartTime = Date.now();
@@ -332,25 +408,25 @@
                         if (targetPost.dataset.viewStartTime) {
                             const duration = (Date.now() - parseInt(targetPost.dataset.viewStartTime)) / 1000;
                             if (duration > 1) {
-                                addLogEntry('elementFocusDuration', { postContent, duration: duration.toFixed(1) });
+                                addLogEntry('elementFocusDuration', {postContent, duration: duration.toFixed(1)});
                             }
                             delete targetPost.dataset.viewStartTime;
                         }
                     }
                 });
-            }, { threshold: [0.2, 0.8] });
+            }, {threshold: [0.2, 0.8]});
             observer.observe(postElement);
         });
 
         document.querySelectorAll('.like-button').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const postCard = this.closest('.post-card');
                 const postContent = postCard.dataset.postContent;
-                addLogEntry('likePost', { postContent });
+                addLogEntry('likePost', {postContent});
                 const likeCountSpan = this.querySelector('.like-count');
                 let currentLikes = parseInt(likeCountSpan.textContent);
                 this.dataset.liked = this.dataset.liked !== 'true';
-                if(this.dataset.liked === 'true') {
+                if (this.dataset.liked === 'true') {
                     this.classList.add('text-red-500');
                     likeCountSpan.textContent = currentLikes + 1;
                 } else {
@@ -360,12 +436,12 @@
             });
         });
         document.querySelectorAll('.comment-button').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 this.closest('.post-card').querySelector('.comments-section').classList.toggle('hidden');
             });
         });
         document.querySelectorAll('.add-comment-button').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const inputField = this.previousElementSibling;
                 const commentText = inputField.value.trim();
                 const postCard = this.closest('.post-card');
@@ -373,13 +449,13 @@
                 if (commentText) {
                     inputField.value = '';
                     alert("Kommentar (simuliert) hinzugefügt: " + commentText);
-                    addLogEntry('addComment', { postContent, commentText });
+                    addLogEntry('addComment', {postContent, commentText});
                 }
             });
         });
     }
 
-    document.body.addEventListener('click', function(event) {
+    document.body.addEventListener('click', function (event) {
         if (event.target.closest('#trackingLogContainer') || event.target.closest('#trackingToast') ||
             event.target.closest('.like-button') || event.target.closest('.add-comment-button') || event.target.closest('.comment-button')) {
             return;
@@ -395,7 +471,7 @@
 
     function throttle(func, limit) {
         let inThrottle;
-        return function() {
+        return function () {
             const args = arguments;
             const context = this;
             if (!inThrottle) {
@@ -406,15 +482,14 @@
         }
     }
 
-    window.addEventListener('scroll', throttle(function() {
-        addLogEntry('scrollActivity', { position: window.scrollY.toFixed(0) });
+    window.addEventListener('scroll', throttle(function () {
+        addLogEntry('scrollActivity', {position: window.scrollY.toFixed(0)});
     }, 2000));
 
-    document.addEventListener('mousemove', throttle(function(event) {
-        addLogEntry('mouseActivity', { x: event.clientX, y: event.clientY });
+    document.addEventListener('mousemove', throttle(function (event) {
+        addLogEntry('mouseActivity', {x: event.clientX, y: event.clientY});
     }, 3000));
 
-    // Simulierte Geräteinformationen abrufen und anzeigen
     function getSimulatedDeviceInfos() {
         const ua = navigator.userAgent.toLowerCase();
         let os = "Unbekanntes OS";
@@ -434,7 +509,6 @@
         const screenRes = `${window.screen.width}x${window.screen.height}`;
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-        // Simulierte Daten
         const simIp = `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)} (Lokal Sim.)`;
         const simCountry = "Deutschland (Simuliert)";
 
@@ -445,14 +519,13 @@
         deviceCountryEl.textContent = simCountry;
         deviceTimezoneEl.textContent = timezone;
 
-        return { os, browser, ip: simIp, screenRes, country: simCountry, timezone };
+        return {os, browser, ip: simIp, screenRes, country: simCountry, timezone};
     }
 
-    // Beim Laden der Seite Geräteinfos erfassen und loggen
     const deviceInfo = getSimulatedDeviceInfos();
     addLogEntry('deviceInfoAccess', deviceInfo);
 
-    searchInput.addEventListener('input', function(event) {
+    searchInput.addEventListener('input', function (event) {
         const searchTerm = event.target.value.toLowerCase();
         const filteredPosts = samplePosts.filter(post =>
             post.content.toLowerCase().includes(searchTerm) ||

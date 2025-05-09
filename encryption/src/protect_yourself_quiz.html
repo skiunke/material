@@ -5,54 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online-Vertrauens-Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .quiz-container, .results-container {
-            background-color: #f8fafc; /* slate-50 */
-            border: 1px solid #e2e8f0; /* slate-200 */
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
             padding: 1.5rem;
             border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
         .question-scenario {
             background-color: #fff;
-            border: 1px solid #cbd5e1; /* slate-300 */
+            border: 1px solid #cbd5e1;
             padding: 1rem;
             border-radius: 0.5rem;
             margin-bottom: 1.5rem;
-            min-height: 100px; /* Ensure some minimum height */
+            min-height: 100px;
         }
+
         .answer-btn {
             transition: transform 0.1s ease, background-color 0.2s ease;
         }
+
         .answer-btn:hover {
             transform: scale(1.03);
         }
+
         .result-item {
-            border-bottom: 1px solid #e2e8f0; /* slate-200 */
+            border-bottom: 1px solid #e2e8f0;
             padding-bottom: 1rem;
             margin-bottom: 1rem;
         }
+
         .result-item:last-child {
             border-bottom: none;
             margin-bottom: 0;
         }
+
         .correct-answer {
-            border-left: 4px solid #22c55e; /* green-500 */
-            background-color: #f0fdf4; /* green-50 */
+            border-left: 4px solid #22c55e;
+            background-color: #f0fdf4;
             padding-left: 0.75rem;
         }
+
         .incorrect-answer {
-            border-left: 4px solid #ef4444; /* red-500 */
-            background-color: #fef2f2; /* red-50 */
+            border-left: 4px solid #ef4444;
+            background-color: #fef2f2;
             padding-left: 0.75rem;
         }
+
         .ambiguous-answer {
-            border-left: 4px solid #f59e0b; /* amber-500 */
-            background-color: #fffbeb; /* amber-50 */
+            border-left: 4px solid #f59e0b;
+            background-color: #fffbeb;
             padding-left: 0.75rem;
         }
     </style>
@@ -68,7 +79,8 @@
         <p class="text-md text-slate-600 max-w-2xl mx-auto">
             Manchmal ist es schwierig zu entscheiden, ob eine Anfrage im Internet okay ist. Teste dein Wissen!
         </p>
-        <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur Startseite</a>
+        <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur
+            Startseite</a>
     </header>
 
     <div id="quizContainer" class="quiz-container">
@@ -76,23 +88,31 @@
         <div class="question-scenario">
             <p id="questionText" class="text-slate-700 text-lg"></p>
         </div>
-        <p class="text-lg font-semibold text-slate-800 mb-4">Ist diese Anfrage okay oder solltest du vorsichtig sein?</p>
+        <p class="text-lg font-semibold text-slate-800 mb-4">Ist diese Anfrage okay oder solltest du vorsichtig
+            sein?</p>
 
         <div class="mb-4">
-            <label for="justificationInput" class="block text-sm font-medium text-slate-700 mb-1">Warum denkst du das? (Optional)</label>
-            <input type="text" id="justificationInput" class="w-full p-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500" placeholder="Deine Begründung...">
+            <label for="justificationInput" class="block text-sm font-medium text-slate-700 mb-1">Warum denkst du das?
+                (Optional)</label>
+            <input type="text" id="justificationInput"
+                   class="w-full p-2 border border-slate-300 rounded-md focus:ring-sky-500 focus:border-sky-500"
+                   placeholder="Deine Begründung...">
         </div>
 
         <div class="flex justify-around items-center mt-6">
-            <button id="okayButton" class="answer-btn bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md text-lg">
+            <button id="okayButton"
+                    class="answer-btn bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md text-lg">
                 <i class="fas fa-check mr-2"></i>Okay
             </button>
-            <button id="cautionButton" class="answer-btn bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-md text-lg">
+            <button id="cautionButton"
+                    class="answer-btn bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-md text-lg">
                 <i class="fas fa-exclamation-triangle mr-2"></i>Vorsicht!
             </button>
         </div>
         <div class="text-center mt-6">
-            <button id="nextButton" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <button id="nextButton"
+                    class="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
                 Nächste Frage <i class="fas fa-arrow-right ml-1"></i>
             </button>
         </div>
@@ -106,24 +126,28 @@
             <p class="text-sky-800 font-semibold">Wichtige Botschaft:</p>
             <p class="text-sm text-sky-700 mt-1">
                 Super gemacht! Denk dran: Wenn du dir bei einer Nachricht oder Anfrage unsicher bist, ist es IMMER okay,
-                einen Erwachsenen zu fragen, dem du vertraust (Eltern, Lehrer, etc.). Lieber einmal zu viel fragen als einmal zu wenig!
+                einen Erwachsenen zu fragen, dem du vertraust (Eltern, Lehrer, etc.). Lieber einmal zu viel fragen als
+                einmal zu wenig!
             </p>
         </div>
         <div class="text-center mt-8">
-            <button id="restartButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md">
+            <button id="restartButton"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md">
                 <i class="fas fa-redo mr-2"></i>Nochmal spielen
             </button>
         </div>
     </div>
 
 </div>
-
+<footer class="mt-12 text-center text-sm text-slate-500">
+    <p>&copy; Kiunke.dev</p>
+</footer>
 <script>
     const quizData = [
         {
             question: "Dein Lieblings-Online-Spiel zeigt eine Meldung: 'Neues Update verfügbar! Klicke hier zum Installieren.'",
-            image: null, // Optional: Pfad zu einem Bild
-            answer: 'okay', // 'okay', 'caution', 'ambiguous'
+            image: null,
+            answer: 'okay',
             explanation: "Updates von bekannten Spielen oder Apps sind meistens okay, solange sie direkt aus dem Spiel oder dem offiziellen App-Store kommen. Sei aber vorsichtig bei Update-Links in E-Mails oder auf fremden Webseiten."
         },
         {
@@ -147,7 +171,7 @@
         {
             question: "Eine Freundschaftsanfrage auf einer Social-Media-Plattform von jemandem, den du nicht kennst. Das Profil hat keine Bilder und keine Freunde.",
             image: null,
-            answer: 'ambiguous', // Es ist nicht direkt gefährlich, aber man sollte vorsichtig sein
+            answer: 'ambiguous',
             explanation: "Das ist nicht direkt gefährlich, aber sei vorsichtig! Nimm nicht einfach Anfragen von Fremden an. Es könnte ein Fake-Profil sein. Wenn du unsicher bist, ignoriere die Anfrage oder frage deine Eltern."
         },
         {
@@ -188,7 +212,7 @@
     const restartButton = document.getElementById('restartButton');
 
     let currentQuestionIndex = 0;
-    let userAnswers = []; // Stores { questionIndex, answer ('okay'/'caution'), justification, isCorrect }
+    let userAnswers = [];
 
     function loadQuestion(index) {
         if (index < quizData.length) {
@@ -196,17 +220,15 @@
             questionNumberEl.textContent = `Frage ${index + 1} von ${quizData.length}`;
             questionTextEl.textContent = question.question;
             justificationInput.value = ''; // Reset justification
-            okayButton.classList.remove('ring-4', 'ring-offset-2', 'ring-green-400'); // Reset selection style
-            cautionButton.classList.remove('ring-4', 'ring-offset-2', 'ring-red-400'); // Reset selection style
-            nextButton.disabled = true; // Disable next button until an answer is selected
+            okayButton.classList.remove('ring-4', 'ring-offset-2', 'ring-green-400');
+            cautionButton.classList.remove('ring-4', 'ring-offset-2', 'ring-red-400');
+            nextButton.disabled = true;
         } else {
-            // End of quiz
             showResults();
         }
     }
 
     function handleAnswer(selectedAnswer) {
-        // Highlight selected button
         okayButton.classList.remove('ring-4', 'ring-offset-2', 'ring-green-400');
         cautionButton.classList.remove('ring-4', 'ring-offset-2', 'ring-red-400');
         if (selectedAnswer === 'okay') {
@@ -215,20 +237,19 @@
             cautionButton.classList.add('ring-4', 'ring-offset-2', 'ring-red-400');
         }
 
-        // Enable next button
         nextButton.disabled = false;
     }
 
     function saveAnswerAndProceed() {
         const selectedAnswer = okayButton.classList.contains('ring-4') ? 'okay' : (cautionButton.classList.contains('ring-4') ? 'caution' : null);
-        if (!selectedAnswer) return; // Should not happen if button is enabled
+        if (!selectedAnswer) return;
 
         const justification = justificationInput.value.trim();
         const currentQuestion = quizData[currentQuestionIndex];
 
         let isCorrect = null;
         if (currentQuestion.answer === 'ambiguous') {
-            isCorrect = 'ambiguous'; // Special case for ambiguous questions
+            isCorrect = 'ambiguous';
         } else {
             isCorrect = selectedAnswer === currentQuestion.answer;
         }
@@ -250,7 +271,7 @@
     function showResults() {
         quizContainer.classList.add('hidden');
         resultsContainer.classList.remove('hidden');
-        resultItemsContainer.innerHTML = ''; // Clear previous results
+        resultItemsContainer.innerHTML = '';
 
         userAnswers.forEach(result => {
             const resultItem = document.createElement('div');
@@ -295,13 +316,11 @@
         loadQuestion(currentQuestionIndex);
     }
 
-    // Event Listeners
     okayButton.addEventListener('click', () => handleAnswer('okay'));
     cautionButton.addEventListener('click', () => handleAnswer('caution'));
     nextButton.addEventListener('click', saveAnswerAndProceed);
     restartButton.addEventListener('click', restartQuiz);
 
-    // Initial Load
     loadQuestion(currentQuestionIndex);
 
 </script>

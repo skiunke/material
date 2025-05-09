@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktiver Werkzeugkasten</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .tool-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
             display: flex;
@@ -17,59 +20,61 @@
             justify-content: space-between;
             height: 100%;
         }
+
         .tool-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        /* Optional: Animate FontAwesome icons on hover */
+
         .tool-card:hover h3 i {
             transform: rotate(5deg) scale(1.1);
             transition: transform 0.3s ease;
         }
+
         .tool-card-content {
             flex-grow: 1;
         }
+
         .section-title {
-            border-bottom: 2px solid #0ea5e9; /* sky-500 */
+            border-bottom: 2px solid #0ea5e9;
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
         }
-        .section-title i { /* Style icon in section title */
+
+        .section-title i {
             margin-right: 0.75rem;
-            width: 2rem; /* Tailwind w-8 */
-            height: 2rem; /* Tailwind h-8 */
-            line-height: 2rem; /* Center icon vertically if needed */
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
             text-align: center;
         }
-        .tool-card h3 i { /* Style icon in card title */
+
+        .tool-card h3 i {
             margin-right: 0.75rem;
-            width: 1.75rem; /* Tailwind w-7 */
-            height: 1.75rem; /* Tailwind h-7 */
+            width: 1.75rem;
+            height: 1.75rem;
             line-height: 1.75rem;
             text-align: center;
         }
+
         .hidden-by-search {
             opacity: 0;
             transform: scale(0.95);
             height: 0;
-            padding: 0 !important; /* Use !important to override Tailwind padding */
-            margin: 0 !important; /* Use !important to override Tailwind margin */
+            padding: 0 !important;
+            margin: 0 !important;
             overflow: hidden;
             pointer-events: none;
-            /* Adjust transition for smoother height change */
             transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, margin 0.3s ease;
-            /* Add display none after transition for complete removal from layout */
-            transition-end: display: none;
         }
-        /* Add a class to explicitly show elements */
+
         .visible-by-search {
-            display: flex; /* Or block, inline-block etc. depending on element */
+            display: flex;
             opacity: 1;
             transform: scale(1);
-            /* Explicitly set height, padding, margin back if needed, or rely on defaults */
-            height: auto; /* Or original height */
+            height: auto;
             overflow: visible;
             pointer-events: auto;
         }
@@ -84,7 +89,8 @@
         </div>
         <h1 class="text-4xl sm:text-5xl font-bold text-sky-700 mb-3">Interaktiver Werkzeugkasten</h1>
         <p class="text-md text-slate-600 max-w-2xl mx-auto">
-            Willkommen! Entdecke verschiedene Konzepte und Algorithmen durch interaktive Visualisierungen und praktische Werkzeuge.
+            Willkommen! Entdecke verschiedene Konzepte und Algorithmen durch interaktive Visualisierungen und praktische
+            Werkzeuge.
         </p>
     </header>
 
@@ -93,7 +99,9 @@
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fas fa-search text-slate-400"></i>
             </div>
-            <input type="search" id="toolSearchInput" placeholder="Werkzeuge durchsuchen (z.B. Caesar, SHA, Social Media)..." class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-300 rounded-lg bg-slate-50 focus:ring-sky-500 focus:border-sky-500">
+            <input type="search" id="toolSearchInput"
+                   placeholder="Werkzeuge durchsuchen (z.B. Caesar, SHA, Social Media)..."
+                   class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-300 rounded-lg bg-slate-50 focus:ring-sky-500 focus:border-sky-500">
         </div>
     </div>
 
@@ -104,23 +112,29 @@
                 Klassische Kryptographie
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                <a href="caesar_cipher_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Caesar-Verschlüsselung" data-description="klassisches Chiffre Verschiebungen Text">
+                <a href="caesar_cipher_tool.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="Caesar-Verschlüsselung" data-description="klassisches Chiffre Verschiebungen Text">
                     <div class="tool-card-content">
                         <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
                             <i class="fas fa-align-left text-sky-500"></i>
                             Caesar-Verschlüsselung
                         </h3>
-                        <p class="text-sm text-slate-600 mb-4">Ein einfaches Werkzeug, das die klassische Caesar-Chiffre demonstriert. Gib Text ein und sieh verschiedene Verschiebungen.</p>
+                        <p class="text-sm text-slate-600 mb-4">Ein einfaches Werkzeug, das die klassische Caesar-Chiffre
+                            demonstriert. Gib Text ein und sieh verschiedene Verschiebungen.</p>
                     </div>
                     <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Werkzeug öffnen &rarr;</span>
                 </a>
-                <a href="vigenere_cipher_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Vigenère-Chiffre & Analyse" data-description="Kryptographie Schlüsselwort Kasiski-Test">
+                <a href="vigenere_cipher_tool.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="Vigenère-Chiffre & Analyse" data-description="Kryptographie Schlüsselwort Kasiski-Test">
                     <div class="tool-card-content">
                         <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
                             <i class="fas fa-file-lines text-sky-500"></i>
                             Vigenère-Chiffre & Analyse
                         </h3>
-                        <p class="text-sm text-slate-600 mb-4">Erforsche die Vigenère-Chiffre mit einem Schlüsselwort. Enthält auch einen Ansatz zur Kasiski-Test-Analyse.</p>
+                        <p class="text-sm text-slate-600 mb-4">Erforsche die Vigenère-Chiffre mit einem Schlüsselwort.
+                            Enthält auch einen Ansatz zur Kasiski-Test-Analyse.</p>
                     </div>
                     <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Werkzeug öffnen &rarr;</span>
                 </a>
@@ -133,23 +147,31 @@
                 Moderne Kryptographie & Hashing
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                <a href="sha_visualization_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="SHA-256 Hash Visualisierung" data-description="Hashing Algorithmus Datensicherheit Fingerabdruck">
+                <a href="sha_visualization_tool.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="SHA-256 Hash Visualisierung"
+                   data-description="Hashing Algorithmus Datensicherheit Fingerabdruck">
                     <div class="tool-card-content">
                         <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
                             <i class="fas fa-hashtag text-sky-500"></i>
                             SHA-256 Hash Visualisierung
                         </h3>
-                        <p class="text-sm text-slate-600 mb-4">Eine konzeptionelle Darstellung der Funktionsweise des SHA-256 Hash-Algorithmus, Schritt für Schritt.</p>
+                        <p class="text-sm text-slate-600 mb-4">Eine konzeptionelle Darstellung der Funktionsweise des
+                            SHA-256 Hash-Algorithmus, Schritt für Schritt.</p>
                     </div>
                     <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Visualisierung öffnen &rarr;</span>
                 </a>
-                <a href="aes_rsa_visualization_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="AES & RSA Visualisierung" data-description="symmetrisch asymmetrisch Verschlüsselung Algorithmen">
+                <a href="aes_rsa_visualization_tool.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="AES & RSA Visualisierung"
+                   data-description="symmetrisch asymmetrisch Verschlüsselung Algorithmen">
                     <div class="tool-card-content">
                         <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
                             <i class="fas fa-shield-halved text-sky-500"></i>
                             AES & RSA Visualisierung
                         </h3>
-                        <p class="text-sm text-slate-600 mb-4">Grundlagen der symmetrischen (AES) und asymmetrischen (RSA) Verschlüsselung konzeptionell verstehen.</p>
+                        <p class="text-sm text-slate-600 mb-4">Grundlagen der symmetrischen (AES) und asymmetrischen
+                            (RSA) Verschlüsselung konzeptionell verstehen.</p>
                     </div>
                     <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Visualisierung öffnen &rarr;</span>
                 </a>
@@ -162,23 +184,57 @@
                 Datenschutz & Social Media
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                <a href="social_media_privacy_awareness_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Social Media Tracking Demo" data-description="Datenschutz Logbuch Profilübersicht Tracking">
+                <a href="social_media_privacy_awareness_tool.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="Social Media Tracking Demo"
+                   data-description="Datenschutz Logbuch Profilübersicht Tracking">
                     <div class="tool-card-content">
                         <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
                             <i class="fas fa-users text-sky-500"></i>
                             Social Media Tracking Demo
                         </h3>
-                        <p class="text-sm text-slate-600 mb-4">Erlebe, wie soziale Medien Aktionen verfolgen und welche Daten gesammelt werden könnten. Mit Logbuch und Profilübersicht.</p>
+                        <p class="text-sm text-slate-600 mb-4">Erlebe, wie soziale Medien Aktionen verfolgen und welche
+                            Daten gesammelt werden könnten. Mit Logbuch und Profilübersicht.</p>
                     </div>
                     <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Demo öffnen &rarr;</span>
                 </a>
-                <a href="social_media_privacy_awareness_tool.html" class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200" data-title="Social Media Tracking Demo" data-description="Datenschutz Logbuch Profilübersicht Tracking">
+                <a href="protect_yourself.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="Social Media Tracking Demo"
+                   data-description="Datenschutz Logbuch Profilübersicht Tracking">
                     <div class="tool-card-content">
                         <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
-                            <i class="fas fa-users text-sky-500"></i>
-                            Social Media Tracking Demo
+                            <i class="fas fa-list text-sky-500"></i>
+                            Datenschutz Karten
                         </h3>
-                        <p class="text-sm text-slate-600 mb-4">Erlebe, wie soziale Medien Aktionen verfolgen und welche Daten gesammelt werden könnten. Mit Logbuch und Profilübersicht.</p>
+                        <p class="text-sm text-slate-600 mb-4">Übersicht zu Akteuren im Internet und deren Gefahren.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Demo öffnen &rarr;</span>
+                </a>
+                <a href="protect_yourself_quiz.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="Social Media Tracking Demo"
+                   data-description="Datenschutz Logbuch Profilübersicht Tracking">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-question text-sky-500"></i>
+                            Datenschutz Quiz
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Interaktives Quiz zu den Gefahren im Internet.</p>
+                    </div>
+                    <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Demo öffnen &rarr;</span>
+                </a>
+                <a href="privacy.html"
+                   class="tool-card block bg-slate-50 p-6 rounded-lg shadow-md hover:shadow-xl border border-slate-200"
+                   data-title="Social Media Tracking Demo"
+                   data-description="Datenschutz Logbuch Profilübersicht Tracking">
+                    <div class="tool-card-content">
+                        <h3 class="text-2xl font-semibold text-sky-600 mb-3 flex items-center">
+                            <i class="fas fa-image text-sky-500"></i>
+                            Daten Teilen – Simulation
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">Erlebe, was passiert, wenn du Daten im Internet
+                            teilst.</p>
                     </div>
                     <span class="mt-auto inline-block bg-sky-600 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-sky-700 transition-colors self-start">Demo öffnen &rarr;</span>
                 </a>
@@ -199,7 +255,7 @@
     const toolSectionsContainer = document.getElementById('toolSectionsContainer');
     const toolSections = toolSectionsContainer.querySelectorAll('.tool-section');
 
-    searchInput.addEventListener('input', function(event) {
+    searchInput.addEventListener('input', function (event) {
         const searchTerm = event.target.value.toLowerCase().trim();
 
         toolSections.forEach(section => {
@@ -210,50 +266,44 @@
             cards.forEach(card => {
                 const title = card.dataset.title.toLowerCase();
                 const description = card.dataset.description.toLowerCase();
-                // Check if card matches search term
                 const cardMatches = title.includes(searchTerm) || description.includes(searchTerm);
 
                 if (cardMatches) {
-                    card.style.display = ''; // Reset display property
+                    card.style.display = '';
                     card.classList.remove('hidden-by-search');
-                    card.classList.add('visible-by-search'); // Add class to ensure visibility styles
+                    card.classList.add('visible-by-search');
                     sectionHasVisibleCards = true;
                 } else {
-                    // Check if section title matches, if so, show all cards in that section
                     if (sectionTitleText.includes(searchTerm) && searchTerm !== "") {
                         card.style.display = '';
                         card.classList.remove('hidden-by-search');
                         card.classList.add('visible-by-search');
-                        sectionHasVisibleCards = true; // Ensure section title remains visible
+                        sectionHasVisibleCards = true;
                     } else {
                         card.classList.add('hidden-by-search');
                         card.classList.remove('visible-by-search');
-                        // Add event listener for transition end to set display: none
                         card.addEventListener('transitionend', function handleTransitionEnd() {
-                            // Check again in case the state changed during transition
                             if (card.classList.contains('hidden-by-search')) {
                                 card.style.display = 'none';
                             }
                             card.removeEventListener('transitionend', handleTransitionEnd);
-                        }, { once: true }); // Use once to automatically remove listener after firing
+                        }, {once: true});
                     }
                 }
             });
 
-            // Show/Hide Section Title and Section itself
             const sectionTitleElement = section.querySelector('.section-title');
-            const sectionGrid = section.querySelector('.grid'); // Target the grid for hiding/showing
+            const sectionGrid = section.querySelector('.grid');
 
             if (sectionHasVisibleCards || sectionTitleText.includes(searchTerm) || searchTerm === "") {
                 sectionTitleElement.style.display = '';
                 sectionTitleElement.classList.remove('hidden-by-search');
-                sectionGrid.style.display = 'grid'; // Ensure grid display is reset
+                sectionGrid.style.display = 'grid';
                 sectionGrid.classList.remove('hidden-by-search');
-                section.style.display = ''; // Show section container
+                section.style.display = '';
                 section.classList.remove('hidden-by-search');
                 section.classList.add('visible-by-search');
-                // Ensure cards are visible if section title matches or search is empty
-                if(sectionTitleText.includes(searchTerm) || searchTerm === "") {
+                if (sectionTitleText.includes(searchTerm) || searchTerm === "") {
                     cards.forEach(card => {
                         card.style.display = '';
                         card.classList.remove('hidden-by-search');
@@ -262,16 +312,16 @@
                 }
             } else {
                 sectionTitleElement.classList.add('hidden-by-search');
-                sectionGrid.classList.add('hidden-by-search'); // Hide grid as well
+                sectionGrid.classList.add('hidden-by-search');
                 section.classList.add('hidden-by-search');
                 sectionTitleElement.addEventListener('transitionend', function handleTransitionEnd() {
                     if (sectionTitleElement.classList.contains('hidden-by-search')) {
                         sectionTitleElement.style.display = 'none';
-                        sectionGrid.style.display = 'none'; // Hide grid completely after transition
-                        section.style.display = 'none'; // Hide section container
+                        sectionGrid.style.display = 'none';
+                        section.style.display = 'none';
                     }
                     sectionTitleElement.removeEventListener('transitionend', handleTransitionEnd);
-                }, { once: true });
+                }, {once: true});
             }
         });
     });

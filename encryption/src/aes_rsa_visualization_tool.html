@@ -9,24 +9,27 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .step-box {
-            border: 1px solid #e2e8f0; /* slate-200 */
+            border: 1px solid #e2e8f0;
             padding: 1rem;
             margin-bottom: 1rem;
             border-radius: 0.5rem;
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
+
         .step-box.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
         .data-block {
-            background-color: #e0f2fe; /* sky-100 */
-            border: 1px solid #7dd3fc; /* sky-300 */
-            color: #0c4a6e; /* sky-800 */
+            background-color: #e0f2fe;
+            border: 1px solid #7dd3fc;
+            color: #0c4a6e;
             padding: 0.5rem;
             margin: 0.25rem;
             border-radius: 0.25rem;
@@ -35,41 +38,55 @@
             font-size: 0.8rem;
             display: inline-block;
         }
+
         .key-block {
-            background-color: #dcfce7; /* green-100 */
-            border: 1px solid #86efac; /* green-300 */
-            color: #166534; /* green-800 */
+            background-color: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
         }
+
         .private-key-block {
-            background-color: #fee2e2; /* red-100 */
-            border: 1px solid #fca5a5; /* red-300 */
-            color: #991b1b; /* red-800 */
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
         }
+
         .arrow {
-            font-size: 1.5rem; /* Etwas kleiner als bei SHA */
-            color: #38bdf8; /* sky-500 */
+            font-size: 1.5rem;
+            color: #38bdf8;
             margin: 0 0.5rem;
             line-height: 1;
             display: inline-block;
             vertical-align: middle;
         }
+
         .processing-animation div {
             animation: pulse 1.5s infinite ease-in-out;
         }
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.7; }
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.7;
+            }
         }
+
         .tab-button {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+
         .tab-button.active {
-            border-color: #0ea5e9; /* sky-500 */
+            border-color: #0ea5e9;
             background-color: #0ea5e9;
             color: white;
         }
+
         .tab-button:not(.active):hover {
-            background-color: #f0f9ff; /* sky-50 */
+            background-color: #f0f9ff;
         }
     </style>
 </head>
@@ -79,22 +96,31 @@
     <header class="mb-8 text-center">
         <h1 class="text-4xl font-bold text-sky-700 mb-3">AES & RSA Visualisierung</h1>
         <p class="text-sm text-slate-600">
-            Diese Seite demonstriert konzeptionell die Funktionsweise der Verschlüsselungsalgorithmen AES (symmetrisch) und RSA (asymmetrisch).
+            Diese Seite demonstriert konzeptionell die Funktionsweise der Verschlüsselungsalgorithmen AES (symmetrisch)
+            und RSA (asymmetrisch).
         </p>
+        <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur
+            Startseite</a>
+
     </header>
 
     <div class="bg-sky-100 border-l-4 border-sky-500 text-sky-800 p-4 rounded-md shadow-sm my-6 text-left" role="alert">
         <div class="flex items-start">
             <div class="flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-sky-600 mr-3">
-                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.67-1.34l.04-.022ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="w-6 h-6 text-sky-600 mr-3">
+                    <path fill-rule="evenodd"
+                          d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.67-1.34l.04-.022ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                          clip-rule="evenodd"/>
                 </svg>
             </div>
             <div class="ml-1">
                 <h4 class="text-md font-semibold text-sky-700">Verschlüsselung vs. Hashing</h4>
                 <p class="text-sm text-sky-700 mt-1">
-                    Im Gegensatz zu Hash-Funktionen (wie SHA-256), die Einwegfunktionen sind, sind Verschlüsselungsalgorithmen wie AES und RSA darauf ausgelegt,
-                    Daten so zu transformieren (verschlüsseln), dass sie nur mit dem richtigen Schlüssel wieder in ihre ursprüngliche Form (entschlüsselt) gebracht werden können.
+                    Im Gegensatz zu Hash-Funktionen (wie SHA-256), die Einwegfunktionen sind, sind
+                    Verschlüsselungsalgorithmen wie AES und RSA darauf ausgelegt,
+                    Daten so zu transformieren (verschlüsseln), dass sie nur mit dem richtigen Schlüssel wieder in ihre
+                    ursprüngliche Form (entschlüsselt) gebracht werden können.
                     Sie dienen der Vertraulichkeit von Daten.
                 </p>
             </div>
@@ -102,10 +128,12 @@
     </div>
 
     <div class="mb-6 flex border-b border-slate-300">
-        <button id="tabAES" class="tab-button active flex-1 py-3 px-4 text-center font-medium text-slate-700 border-b-2 border-transparent hover:border-sky-300 focus:outline-none">
+        <button id="tabAES"
+                class="tab-button active flex-1 py-3 px-4 text-center font-medium text-slate-700 border-b-2 border-transparent hover:border-sky-300 focus:outline-none">
             AES (Symmetrisch)
         </button>
-        <button id="tabRSA" class="tab-button flex-1 py-3 px-4 text-center font-medium text-slate-700 border-b-2 border-transparent hover:border-sky-300 focus:outline-none">
+        <button id="tabRSA"
+                class="tab-button flex-1 py-3 px-4 text-center font-medium text-slate-700 border-b-2 border-transparent hover:border-sky-300 focus:outline-none">
             RSA (Asymmetrisch)
         </button>
     </div>
@@ -113,18 +141,26 @@
     <div id="sectionAES">
         <header class="mb-4">
             <h2 class="text-2xl font-semibold text-sky-600">AES (Advanced Encryption Standard)</h2>
-            <p class="text-sm text-slate-500">AES ist ein symmetrischer Blockchiffre, d.h. derselbe Schlüssel wird für Ver- und Entschlüsselung verwendet. Es verarbeitet Daten in Blöcken (128 Bits für AES).</p>
+            <p class="text-sm text-slate-500">AES ist ein symmetrischer Blockchiffre, d.h. derselbe Schlüssel wird für
+                Ver- und Entschlüsselung verwendet. Es verarbeitet Daten in Blöcken (128 Bits für AES).</p>
         </header>
         <section class="mb-6">
-            <label for="inputTextAES" class="block text-base font-semibold text-slate-700 mb-2">Klartext eingeben:</label>
-            <input type="text" id="inputTextAES" class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base" placeholder="z.B. Geheime Nachricht">
+            <label for="inputTextAES" class="block text-base font-semibold text-slate-700 mb-2">Klartext
+                eingeben:</label>
+            <input type="text" id="inputTextAES"
+                   class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                   placeholder="z.B. Geheime Nachricht">
         </section>
         <section class="mb-6">
-            <label for="inputKeyAES" class="block text-base font-semibold text-slate-700 mb-2">Schlüssel eingeben (konzeptionell, z.B. 16 Zeichen):</label>
-            <input type="text" id="inputKeyAES" class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base" placeholder="z.B. MeinSuperGeheimKey">
+            <label for="inputKeyAES" class="block text-base font-semibold text-slate-700 mb-2">Schlüssel eingeben
+                (konzeptionell, z.B. 16 Zeichen):</label>
+            <input type="text" id="inputKeyAES"
+                   class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                   placeholder="z.B. MeinSuperGeheimKey">
         </section>
         <div class="flex justify-center mb-8">
-            <button id="visualizeButtonAES" class="bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-6 rounded-lg font-semibold shadow-md transition duration-150 ease-in-out">
+            <button id="visualizeButtonAES"
+                    class="bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-6 rounded-lg font-semibold shadow-md transition duration-150 ease-in-out">
                 AES Visualisierung starten / Nächster Schritt
             </button>
         </div>
@@ -134,14 +170,20 @@
     <div id="sectionRSA" class="hidden">
         <header class="mb-4">
             <h2 class="text-2xl font-semibold text-sky-600">RSA (Rivest-Shamir-Adleman)</h2>
-            <p class="text-sm text-slate-500">RSA ist ein asymmetrischer Algorithmus, d.h. er verwendet ein Schlüsselpaar: einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten Schlüssel zum Entschlüsseln.</p>
+            <p class="text-sm text-slate-500">RSA ist ein asymmetrischer Algorithmus, d.h. er verwendet ein
+                Schlüsselpaar: einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten Schlüssel zum
+                Entschlüsseln.</p>
         </header>
         <section class="mb-6">
-            <label for="inputTextRSA" class="block text-base font-semibold text-slate-700 mb-2">Nachricht eingeben (oft für kurze Daten wie Schlüssel):</label>
-            <input type="text" id="inputTextRSA" class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base" placeholder="z.B. Hallo">
+            <label for="inputTextRSA" class="block text-base font-semibold text-slate-700 mb-2">Nachricht eingeben (oft
+                für kurze Daten wie Schlüssel):</label>
+            <input type="text" id="inputTextRSA"
+                   class="mt-1 block w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-base"
+                   placeholder="z.B. Hallo">
         </section>
         <div class="flex justify-center mb-8">
-            <button id="visualizeButtonRSA" class="bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-6 rounded-lg font-semibold shadow-md transition duration-150 ease-in-out">
+            <button id="visualizeButtonRSA"
+                    class="bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-6 rounded-lg font-semibold shadow-md transition duration-150 ease-in-out">
                 RSA Visualisierung starten / Nächster Schritt
             </button>
         </div>
@@ -151,14 +193,13 @@
 </div>
 
 <footer class="mt-12 text-center text-sm text-slate-500">
-    <p>&copy; <span id="currentYear"></span> AES & RSA Visualisierung</p>
+    <p>&copy; <span id="currentYear"></span> Kiunke.dev</p>
 </footer>
 
 <script>
     const currentYearSpan = document.getElementById('currentYear');
     if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
 
-    // Tab-Logik
     const tabAES = document.getElementById('tabAES');
     const tabRSA = document.getElementById('tabRSA');
     const sectionAES = document.getElementById('sectionAES');
@@ -169,17 +210,16 @@
         tabRSA.classList.remove('active');
         sectionAES.classList.remove('hidden');
         sectionRSA.classList.add('hidden');
-        resetVisualizationAES(); // Reset beim Tab-Wechsel
+        resetVisualizationAES();
     });
     tabRSA.addEventListener('click', () => {
         tabRSA.classList.add('active');
         tabAES.classList.remove('active');
         sectionRSA.classList.remove('hidden');
         sectionAES.classList.add('hidden');
-        resetVisualizationRSA(); // Reset beim Tab-Wechsel
+        resetVisualizationRSA();
     });
 
-    // Gemeinsame Funktionen
     function createStepElement(area, title, contentHtml, isVisible = true) {
         const el = document.createElement('div');
         el.className = 'step-box';
@@ -189,10 +229,10 @@
             `;
         area.appendChild(el);
         if (isVisible) {
-            void el.offsetWidth; // Force reflow
+            void el.offsetWidth;
             el.classList.add('visible');
         }
-        el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        el.scrollIntoView({behavior: 'smooth', block: 'end'});
         return el;
     }
 
@@ -200,20 +240,18 @@
         return text.length > len ? text.substring(0, len) + '...' : text;
     }
 
-    // Pseudo-Verschlüsselung für Visualisierungszwecke
     function pseudoEncrypt(text, key, type = "AES") {
         let result = "";
         for (let i = 0; i < text.length; i++) {
             result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length) ^ (type === "AES" ? 0xAA : 0x55));
         }
-        // In Hex umwandeln, um es "verschlüsselt" aussehen zu lassen
         return Array.from(result).map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('');
     }
 
     function pseudoDecrypt(hexCipherText, key, type = "AES") {
         let text = "";
-        for(let i=0; i < hexCipherText.length; i+=2){
-            text += String.fromCharCode(parseInt(hexCipherText.substring(i, i+2), 16));
+        for (let i = 0; i < hexCipherText.length; i += 2) {
+            text += String.fromCharCode(parseInt(hexCipherText.substring(i, i + 2), 16));
         }
         let result = "";
         for (let i = 0; i < text.length; i++) {
@@ -223,7 +261,6 @@
     }
 
 
-    // --- AES Visualisierung ---
     const inputTextAES = document.getElementById('inputTextAES');
     const inputKeyAES = document.getElementById('inputKeyAES');
     const visualizeButtonAES = document.getElementById('visualizeButtonAES');
@@ -243,7 +280,7 @@
             createStepElement(visualizationAreaAES, "Fehler", "<p>Bitte Klartext und Schlüssel eingeben.</p>");
             return false;
         }
-        if (keyAES.length < 8) { // Beispielhafte Mindestlänge für Konzept
+        if (keyAES.length < 8) {
             createStepElement(visualizationAreaAES, "Fehler", "<p>Der Schlüssel sollte konzeptionell mindestens 8 Zeichen lang sein.</p>");
             return false;
         }
@@ -325,6 +362,7 @@
             resetVisualizationAES();
         }
     }
+
     function resetVisualizationAES() {
         visualizationAreaAES.innerHTML = '';
         currentStepAES = 0;
@@ -332,6 +370,7 @@
         inputKeyAES.value = '';
         visualizeButtonAES.textContent = "AES Visualisierung starten / Nächster Schritt";
     }
+
     visualizeButtonAES.addEventListener('click', () => {
         if (currentStepAES === 0) {
             visualizationAreaAES.innerHTML = '';
@@ -343,18 +382,15 @@
         }
     });
 
-    // --- RSA Visualisierung ---
     const inputTextRSA = document.getElementById('inputTextRSA');
     const visualizeButtonRSA = document.getElementById('visualizeButtonRSA');
     const visualizationAreaRSA = document.getElementById('visualizationAreaRSA');
     let currentStepRSA = 0;
     let stepsRSA = [];
     let originalTextRSA = "";
-    // Konzeptionelle RSA-Parameter (in der Praxis sehr große Primzahlen)
     let pRSA, qRSA, nRSA, phiRSA, eRSA, dRSA;
     let conceptualCiphertextRSA = "";
 
-    // Hilfsfunktion für Modulo-Exponentiation (vereinfacht)
     function power(base, exp, mod) {
         let res = 1;
         base = base % mod;
@@ -365,16 +401,16 @@
         }
         return res;
     }
-    // Hilfsfunktion für ggT (vereinfacht)
+
     function gcd(a, b) {
         return b === 0 ? a : gcd(b, a % b);
     }
-    // Hilfsfunktion für modularen Kehrwert (vereinfacht)
+
     function modInverse(e, phi) {
         for (let d = 1; d < phi; d++) {
             if ((e * d) % phi === 1) return d;
         }
-        return 1; // Fallback, sollte nicht passieren mit korrekten e, phi
+        return 1;
     }
 
 
@@ -387,13 +423,14 @@
             return false;
         }
 
-        // Konzeptionelle Schlüsselgenerierung (mit kleinen Zahlen für Demo)
-        pRSA = 11; // Kleine Primzahl
-        qRSA = 13; // Andere kleine Primzahl
+        pRSA = 11;
+        qRSA = 13;
         nRSA = pRSA * qRSA;
         phiRSA = (pRSA - 1) * (qRSA - 1);
-        eRSA = 7; // Üblicherweise 65537, hier klein für Demo, teilerfremd zu phiRSA
-        while (gcd(eRSA, phiRSA) !== 1) { eRSA++; } // Stelle sicher, dass e teilerfremd ist
+        eRSA = 7;
+        while (gcd(eRSA, phiRSA) !== 1) {
+            eRSA++;
+        }
         dRSA = modInverse(eRSA, phiRSA);
 
 
@@ -422,12 +459,11 @@
         });
 
         stepsRSA.push(() => {
-            // Konzeptionelle Umwandlung der Nachricht in eine Zahl (sehr vereinfacht)
             let messageAsNumber = 0;
-            for(let i=0; i < Math.min(originalTextRSA.length, 4); i++){ // Nur erste paar Zeichen für Demo
+            for (let i = 0; i < Math.min(originalTextRSA.length, 4); i++) {
                 messageAsNumber = (messageAsNumber * 256 + originalTextRSA.charCodeAt(i)) % nRSA;
             }
-            if (messageAsNumber >= nRSA) messageAsNumber = nRSA -1; // Sicherstellen, dass es kleiner n ist
+            if (messageAsNumber >= nRSA) messageAsNumber = nRSA - 1;
 
             conceptualCiphertextRSA = power(messageAsNumber, eRSA, nRSA);
 
@@ -443,17 +479,16 @@
 
         stepsRSA.push(() => {
             const decryptedNumberRSA = power(conceptualCiphertextRSA, dRSA, nRSA);
-            // Konzeptionelle Rückumwandlung (sehr vereinfacht)
             let decryptedTextRSA = "";
             let tempNum = decryptedNumberRSA;
             const chars = [];
-            while(tempNum > 0 && chars.length < Math.min(originalTextRSA.length, 4)){
+            while (tempNum > 0 && chars.length < Math.min(originalTextRSA.length, 4)) {
                 chars.unshift(String.fromCharCode(tempNum % 256));
                 tempNum = Math.floor(tempNum / 256);
             }
             decryptedTextRSA = chars.join('');
-            if(!decryptedTextRSA && originalTextRSA.length > 0 && decryptedNumberRSA === 0) decryptedTextRSA = originalTextRSA[0]; // Fallback für M=0
-            if(!decryptedTextRSA && originalTextRSA) decryptedTextRSA = originalTextRSA.substring(0, String(decryptedNumberRSA).length); // Fallback
+            if (!decryptedTextRSA && originalTextRSA.length > 0 && decryptedNumberRSA === 0) decryptedTextRSA = originalTextRSA[0]; // Fallback für M=0
+            if (!decryptedTextRSA && originalTextRSA) decryptedTextRSA = originalTextRSA.substring(0, String(decryptedNumberRSA).length); // Fallback
 
 
             createStepElement(visualizationAreaRSA, "Schritt 4: Entschlüsselung (RSA)", `
@@ -480,12 +515,14 @@
             resetVisualizationRSA();
         }
     }
+
     function resetVisualizationRSA() {
         visualizationAreaRSA.innerHTML = '';
         currentStepRSA = 0;
         inputTextRSA.value = '';
         visualizeButtonRSA.textContent = "RSA Visualisierung starten / Nächster Schritt";
     }
+
     visualizeButtonRSA.addEventListener('click', () => {
         if (currentStepRSA === 0) {
             visualizationAreaRSA.innerHTML = '';
@@ -497,8 +534,7 @@
         }
     });
 
-    // Initial active tab
-    tabAES.click(); // Stellt sicher, dass AES initial aktiv ist und Resets ausgeführt werden
+    tabAES.click();
 
 </script>
 </body>

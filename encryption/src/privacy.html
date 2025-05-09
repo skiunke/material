@@ -5,19 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vorsicht beim Teilen im Netz!</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .scenario-box {
-            background-color: #f0f9ff; /* sky-50 */
-            border: 1px solid #bae6fd; /* sky-200 */
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
             padding: 1.5rem;
             border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             text-align: center; /* Center content in the box */
         }
+
         .explanation-step {
             opacity: 0;
             transform: translateY(20px);
@@ -26,39 +30,50 @@
             padding: 1rem;
             border-radius: 0.5rem;
             background-color: #fff;
-            border: 1px solid #e2e8f0; /* slate-200 */
+            border: 1px solid #e2e8f0;
         }
+
         .explanation-step.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
         .data-flow-icon {
             animation: float 3s ease-in-out infinite;
             display: inline-block;
         }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
+
         .icon-pulse {
             animation: pulse-simple 1.5s infinite;
         }
+
         .btn-upload {
-            background-color: #22c55e; /* green-500 */
+            background-color: #22c55e;
             color: white;
         }
+
         .btn-upload:hover {
-            background-color: #16a34a; /* green-600 */
+            background-color: #16a34a;
         }
+
         #profileImagePreview {
             max-width: 150px;
             max-height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #e0f2fe; /* sky-100 */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 4px solid #e0f2fe;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        /* Hide the actual file input */
+
         #fileInput {
             display: none;
         }
@@ -73,9 +88,11 @@
         </div>
         <h1 class="text-4xl sm:text-5xl font-bold text-red-600 mb-3">Vorsicht beim Teilen im Netz!</h1>
         <p class="text-md text-slate-600 max-w-2xl mx-auto">
-            Manchmal wirst du gebeten, ein Profilbild hochzuladen. Aber was passiert dann damit? Lass uns das mal anschauen.
+            Manchmal wirst du gebeten, ein Profilbild hochzuladen. Aber was passiert dann damit? Lass uns das mal
+            anschauen.
         </p>
-        <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur Startseite</a>
+        <a href="index.html" class="mt-4 inline-block text-sky-600 hover:text-sky-800 hover:underline">&larr; Zurück zur
+            Startseite</a>
     </header>
 
     <section class="scenario-box mb-8">
@@ -83,17 +100,19 @@
         <div id="uploadSection">
             <p class="text-slate-700 mb-4">Lade ein Profilbild hoch, um dein Konto einzurichten.</p>
             <div class="mb-6">
-                <img id="profileImagePreview" src="https://placehold.co/150x150/e0f2fe/38bdf8?text=Dein+Bild" alt="Profilbild Vorschau" class="mx-auto">
+                <img id="profileImagePreview" src="https://placehold.co/150x150/e0f2fe/38bdf8?text=Dein+Bild"
+                     alt="Profilbild Vorschau" class="mx-auto">
             </div>
             <input type="file" id="fileInput" accept="image/*">
-            <button id="uploadButton" class="btn-upload font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-lg">
+            <button id="uploadButton"
+                    class="btn-upload font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out text-lg">
                 <i class="fas fa-upload mr-2"></i>Profilbild auswählen...
             </button>
-            <p class="text-xs text-slate-500 mt-2">(Es wird nichts wirklich hochgeladen! Deine Datei bleibt auf deinem Gerät.)</p>
         </div>
         <div id="uploadConfirmation" class="hidden">
             <p class="text-lg font-semibold text-green-600 mb-4">Super! Dein Profilbild wurde "hochgeladen".</p>
-            <img id="uploadedImage" src="#" alt="Hochgeladenes Bild" class="mx-auto mb-4" style="max-width: 150px; max-height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #16a34a;">
+            <img id="uploadedImage" src="#" alt="Hochgeladenes Bild" class="mx-auto mb-4"
+                 style="max-width: 150px; max-height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #16a34a;">
             <p class="text-slate-700">Jetzt schauen wir mal, was als Nächstes passieren könnte...</p>
         </div>
     </section>
@@ -109,33 +128,40 @@
             <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
                 <i class="fas fa-brain fa-2x text-emerald-600 mb-2 icon-pulse"></i>
                 <h3 class="font-semibold mb-1">Erst denken, dann klicken!</h3>
-                <p class="text-sm text-slate-600">Ist das wirklich für alle okay? Möchte ich, dass jeder das sehen kann - auch in einem Jahr noch?</p>
+                <p class="text-sm text-slate-600">Ist das wirklich für alle okay? Möchte ich, dass jeder das sehen kann
+                    - auch in einem Jahr noch?</p>
             </div>
             <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
                 <i class="fas fa-comments fa-2x text-emerald-600 mb-2 icon-pulse"></i>
                 <h3 class="font-semibold mb-1">Sprich darüber!</h3>
-                <p class="text-sm text-slate-600">Wenn du unsicher bist oder etwas Blödes passiert ist: Rede mit deinen Eltern, Lehrern oder einer Vertrauensperson!</p>
+                <p class="text-sm text-slate-600">Wenn du unsicher bist oder etwas Blödes passiert ist: Rede mit deinen
+                    Eltern, Lehrern oder einer Vertrauensperson!</p>
             </div>
             <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
                 <i class="fas fa-user-shield fa-2x text-emerald-600 mb-2 icon-pulse"></i>
                 <h3 class="font-semibold mb-1">Privatsphäre schützen!</h3>
-                <p class="text-sm text-slate-600">Schau dir die Einstellungen in Apps an. Teile private Dinge nur mit Leuten, denen du wirklich vertraust.</p>
+                <p class="text-sm text-slate-600">Schau dir die Einstellungen in Apps an. Teile private Dinge nur mit
+                    Leuten, denen du wirklich vertraust.</p>
             </div>
         </div>
         <div class="text-center mt-6">
-            <button id="resetButton" class="bg-slate-500 hover:bg-slate-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-150 ease-in-out">
+            <button id="resetButton"
+                    class="bg-slate-500 hover:bg-slate-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transition duration-150 ease-in-out">
                 <i class="fas fa-undo mr-2"></i>Simulation zurücksetzen
             </button>
         </div>
     </section>
 
 </div>
+<footer class="mt-12 text-center text-sm text-slate-500">
+    <p>&copy; Kiunke.dev</p>
+</footer>
 
 <script>
     const fileInput = document.getElementById('fileInput');
     const uploadButton = document.getElementById('uploadButton');
-    const profileImagePreview = document.getElementById('profileImagePreview'); // Placeholder/Preview before selection
-    const uploadedImage = document.getElementById('uploadedImage'); // Image shown after selection
+    const profileImagePreview = document.getElementById('profileImagePreview');
+    const uploadedImage = document.getElementById('uploadedImage');
     const uploadSection = document.getElementById('uploadSection');
     const uploadConfirmation = document.getElementById('uploadConfirmation');
     const explanationArea = document.getElementById('explanationArea');
@@ -143,7 +169,7 @@
     const resetButton = document.getElementById('resetButton');
 
     let stepCounter = 0;
-    let intervalId = null; // To store the interval timer
+    let intervalId = null;
 
     const explanationSteps = [
         {
@@ -178,32 +204,25 @@
         }
     ];
 
-    // Trigger file input when the styled button is clicked
     uploadButton.addEventListener('click', () => {
         fileInput.click();
     });
 
-    // Handle file selection
     fileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
 
             reader.onload = (e) => {
-                // Display the selected image in the confirmation section
                 uploadedImage.src = e.target.result;
-                // Hide the initial upload prompt and show the confirmation
                 uploadSection.classList.add('hidden');
                 uploadConfirmation.classList.remove('hidden');
-                // Start the automatic explanation steps
                 startAutomaticSteps();
             }
-            reader.readAsDataURL(file); // Read the file as a Data URL
+            reader.readAsDataURL(file);
         } else {
-            // Optional: Handle cases where no file or a non-image file is selected
             alert("Bitte wähle eine Bilddatei aus.");
         }
-        // Reset file input value to allow selecting the same file again after reset
         event.target.value = null;
     });
 
@@ -221,49 +240,44 @@
             `;
             explanationArea.appendChild(stepElement);
 
-            // Force reflow to trigger transition
             void stepElement.offsetWidth;
             stepElement.classList.add('visible');
-            stepElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to the new step
+            stepElement.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 
-            // Show tips after the last step is displayed
             if (index === explanationSteps.length - 1) {
                 setTimeout(() => {
                     tipsSection.classList.remove('hidden');
-                    tipsSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }, 500); // Short delay after last step animation
+                    tipsSection.scrollIntoView({behavior: 'smooth', block: 'end'});
+                }, 500);
             }
         } else {
-            clearInterval(intervalId); // Stop the interval if steps are done
+            clearInterval(intervalId);
         }
     }
 
     function startAutomaticSteps() {
         stepCounter = 0;
-        explanationArea.innerHTML = ''; // Clear previous steps
-        tipsSection.classList.add('hidden'); // Hide tips initially
+        explanationArea.innerHTML = '';
+        tipsSection.classList.add('hidden');
 
-        // Display the first step immediately
         displayStep(stepCounter++);
 
-        // Display subsequent steps every 3 seconds
         intervalId = setInterval(() => {
             if (stepCounter < explanationSteps.length) {
                 displayStep(stepCounter++);
             } else {
-                clearInterval(intervalId); // Stop interval after last step
+                clearInterval(intervalId);
             }
-        }, 3000); // 3 seconds delay
+        }, 3000);
     }
 
     function resetSimulation() {
-        clearInterval(intervalId); // Stop any ongoing interval
+        clearInterval(intervalId);
         explanationArea.innerHTML = '';
         stepCounter = 0;
         tipsSection.classList.add('hidden');
         uploadConfirmation.classList.add('hidden');
         uploadSection.classList.remove('hidden');
-        // Reset the preview image to placeholder
         profileImagePreview.src = "https://placehold.co/150x150/e0f2fe/38bdf8?text=Dein+Bild";
     }
 
