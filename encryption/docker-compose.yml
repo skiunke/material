@@ -9,6 +9,6 @@ services:
     restart: unless-stopped
     networks: 
       - proxy-network
- networks:
+networks:
   proxy-network:
     external: true
