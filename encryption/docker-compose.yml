@@ -6,6 +6,4 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: crypto_toolbox_web_container
-    ports:
-      - "7823:80"
     restart: unless-stopped
